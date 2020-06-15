@@ -36,5 +36,5 @@ using VrcCameraMod;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
-[assembly: MelonModInfo(typeof(CameraMod), "ITR's Camera Spawner", "1.0.0", "ITR")]
+[assembly: MelonModInfo(typeof(CameraMod), "Extra Cameras", "1.0.0", "ITR")]
 [assembly: MelonModGame("VRChat", "VRChat")]
