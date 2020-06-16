@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using MelonLoader;
-using TinyJSON;
+using MelonLoader.TinyJSON;
 using UnityEngine;
 
 namespace MelonCameraMod

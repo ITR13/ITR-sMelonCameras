@@ -58,8 +58,9 @@
     <Reference Include="Il2CppSystem.Xml.Linq">
       <HintPath>%STEAMROOT%\steamapps\common\VRChat\MelonLoader\Managed\Il2CppSystem.Xml.Linq.dll</HintPath>
     </Reference>
-    <Reference Include="MelonLoader.ModHandler">
-      <HintPath>%STEAMROOT%\steamapps\common\VRChat\MelonLoader\MelonLoader.ModHandler.dll</HintPath>
+    <Reference Include="MelonLoader.ModHandler, Version=0.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\VRChat\MelonLoader\MelonLoader.ModHandler.dll</HintPath>
     </Reference>
     <Reference Include="UnhollowerBaseLib">
       <HintPath>%STEAMROOT%\steamapps\common\VRChat\MelonLoader\Managed\UnhollowerBaseLib.dll</HintPath>
@@ -243,24 +244,9 @@
     <Compile Include="CameraMod.cs" />
     <Compile Include="ConfigWatcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TinyJSON\Decoder.cs" />
-    <Compile Include="TinyJSON\EncodeOptions.cs" />
-    <Compile Include="TinyJSON\Encoder.cs" />
-    <Compile Include="TinyJSON\Extensions.cs" />
-    <Compile Include="TinyJSON\JSON.cs" />
-    <Compile Include="TinyJSON\Types\ProxyArray.cs" />
-    <Compile Include="TinyJSON\Types\ProxyBoolean.cs" />
-    <Compile Include="TinyJSON\Types\ProxyNumber.cs" />
-    <Compile Include="TinyJSON\Types\ProxyObject.cs" />
-    <Compile Include="TinyJSON\Types\ProxyString.cs" />
-    <Compile Include="TinyJSON\Types\Variant.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="TinyJSON\LICENSE.md" />
-    <None Include="TinyJSON\README.md" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
