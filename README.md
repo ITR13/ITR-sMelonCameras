@@ -1,66 +1,22 @@
+***NOTE: NOT TESTED IN VR***
+
+### What it does
+Allows you to spawn cameras that render to your screen similarly to stream cameras.
+It's very flexible, it reads VRChat\UserData\CameraConfig.json and sets some of the properties you can find [in the unity docs](https://docs.unity3d.com/ScriptReference/Camera.html). 
+
+To quick-toggle cameras, press ctrl then a digit key. The first config in the list is toggled with ctrl+1, all the way to the 10th with ctrl+0.
+
 ### How to use
-When you first start the game after installing the mod, a file named "CameraConfig.json" will appear in the same folder as VRChat.exe. It will contain two sample cameras to show which settings you can put. It's possible to add or remove cameras from the list.
 
-In game you can use left-ctrl with a digit key to toggle the defined cameras (top camera being toggled by ctrl+1, all the way to the 10th camera with ctrl+0)
+[Cameras rendereing to 3 courners of the screen](https://github.com/ITR13/ITR-sMelonCameras/SAMPLE1.jpg]
+[Sample 1](https://github.com/ITR13/ITR-sMelonCameras/SAMPLE1.json) shows how you can set up multiple cameras in specific regions (check Rect) at different locations (check LocalPosition)
 
-### Properties
-All the properties match ones described [in the unity docs](https://docs.unity3d.com/ScriptReference/Camera.html)
+[Two overlapping cameras rendering over the main view](https://github.com/ITR13/ITR-sMelonCameras/SAMPLE2.jpg]
+[Sample 2](https://github.com/ITR13/ITR-sMelonCameras/SAMPLE2.json) shows how you can set up an aerial view camera (check LocalPosition and LocalRotation) that renders the player on top of everything else (check NearClipPlane, FarClipPlane, and ClearFlags)
 
-#### Enabled 
-_true / false_
+[An orthographic view from above](https://github.com/ITR13/ITR-sMelonCameras/SAMPLE3.jpg]
+[Sample 3](https://github.com/ITR13/ITR-sMelonCameras/SAMPLE3.json) shows what an orthographic view looks like.
 
-Should this field be on or off by default?
-#### Rect
-_dict with 4 decimal values_
-
-Where on the screen should the camera display?
-#### LocalPosition
-_dict with 3 decimal values_
-
-Where should the camera be compared to the main camera?
-#### LocalRotation
-_dict with 4 decimal values_
-
-The local rotation of the camera as a quaternion. Only used if UseRotation = true.
-If UseRotation is false, then the camera will look at yourself.
-#### Aspect
-_decimal value_
-
-The aspect ratio of the camera. Only used if UseAspect = true.
-If UseAspect = false, then the aspect ratio will be based of the screen size.
-#### Depth
-_decimal value_
-
-Which order cameras draw in.
-#### BackgroundColor
-_dict with 4 decimal values_
-
-What color to show if ClearFlags is set to SolidColor.
-#### ClearFlags
-_Skybox / SolidColor / Depth / Nothing_
-
-What to show when stuff is cut off by the ClipPlanes.
- - Skybox: Same as normal camera
- - SolidColor: A flat color defined with BackgroundColor
- - Depth: Don't overwrite colors, but depth
- - None: Don't overwrite colors, and don't overwrite depth
-#### Orthographic
-_true / false_
-
-Orthographic = no perspective.
-#### FieldOfView
-_decimal value_
-
-How wide the camera can see when using perspective.
-#### OrthographicSize
-_decimal value_
-
-[Used when Orthographic](https://docs.unity3d.com/ScriptReference/Camera-orthographicSize.html)
-#### NearClipPlane
-_decimal value_
-
-Everything closer than this value won't be drawn
-#### FarClipPlane
-_decimal value_
-
-Everything further away than this value won't be drawn
+### Contact
+To request a feature, either open an issue on github, or send me a DM on discord @ ITR#2941
+Pull-requests are also greatly appreciated

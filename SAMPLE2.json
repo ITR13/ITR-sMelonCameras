@@ -1,0 +1,70 @@
+[
+	{
+		"Enabled": true,
+		"Rect": {
+			"m_XMin": 0,
+			"m_YMin": 0,
+			"m_Width": 1,
+			"m_Height": 1
+		},
+		"LocalPosition": {
+			"x": 0,
+			"y": 8,
+			"z": 4
+		},
+		"UseRotation": true,
+		"LocalRotation": {
+			"x": 0.8509035,
+			"y": 0,
+			"z": 0,
+			"w": 0.525322
+		},
+		"Depth": 1,
+		"BackgroundColor": {
+			"r": 0,
+			"g": 0,
+			"b": 0,
+			"a": 0
+		},
+		"ClearFlags": "Skybox",
+		"Orthographic": false,
+		"FieldOfView": 60,
+		"OrthographicSize": 5,
+		"FarClipPlane": 1000,
+		"NearClipPlane": 0.3
+	},
+	{
+		"Enabled": true,
+		"Rect": {
+			"m_XMin": 0,
+			"m_YMin": 0,
+			"m_Width": 1,
+			"m_Height": 1
+		},
+		"LocalPosition": {
+			"x": 0,
+			"y": 8,
+			"z": 4
+		},
+		"UseRotation": true,
+		"LocalRotation": {
+			"x": 0.8509035,
+			"y": 0,
+			"z": 0,
+			"w": 0.525322
+		},
+		"Depth": 2,
+		"BackgroundColor": {
+			"r": 0,
+			"g": 0,
+			"b": 0,
+			"a": 0
+		},
+		"ClearFlags": "Depth",
+		"Orthographic": false,
+		"FieldOfView": 60,
+		"OrthographicSize": 5,
+		"FarClipPlane": 5.9,
+		"NearClipPlane": 4.5
+	}
+]
