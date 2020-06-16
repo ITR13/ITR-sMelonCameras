@@ -12,7 +12,7 @@ namespace MelonCameraMod
         private const string FileName = "CameraConfig.json";
 
         private static readonly string FileDirectory =
-            Application.dataPath + "/../";
+            Path.Combine(Environment.CurrentDirectory, "UserData");
 
         private static readonly string FullPath = FileDirectory + FileName;
 
@@ -82,6 +82,8 @@ namespace MelonCameraMod
             {
                 MelonModLogger.LogError(e.ToString());
             }
+
+            CameraConfigs = CameraConfigs ?? new List<CameraConfig>();
 
             return true;
         }
