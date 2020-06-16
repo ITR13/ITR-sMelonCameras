@@ -12,6 +12,11 @@ namespace MelonCameraMod
         private const float UpdateInterval = 1;
         private float _updateTimer = UpdateInterval;
 
+        public override void OnApplicationQuit()
+        {
+            ConfigWatcher.Unload();
+        }
+
         public override void OnUpdate()
         {
             CheckToggles();

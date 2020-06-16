@@ -19,10 +19,30 @@ namespace MelonCameraMod
         public static List<CameraConfig> CameraConfigs =
             new List<CameraConfig>();
 
-        private static DateTime _lastUpdate = DateTime.MinValue;
+        private static readonly FileSystemWatcher FileSystemWatcher;
+        private static bool _dirty = true;
+
+        static ConfigWatcher()
+        {
+            FileSystemWatcher = new FileSystemWatcher(FileDirectory, FileName)
+            {
+                NotifyFilter = (NotifyFilters)((1 << 9) - 1),
+                EnableRaisingEvents = true
+            };
+            FileSystemWatcher.Changed += (_, __) => _dirty = true;
+        }
+
+        public static void Unload()
+        {
+            FileSystemWatcher.EnableRaisingEvents = false;
+            _dirty = false;
+        }
 
         public static bool UpdateIfDirty()
         {
+            if (!_dirty) return false;
+            _dirty = false;
+
             if (!File.Exists(FullPath))
             {
                 MelonModLogger.Log(
@@ -46,15 +66,8 @@ namespace MelonCameraMod
                     EncodeOptions.PrettyPrint | EncodeOptions.NoTypeHints
                 );
                 File.WriteAllText(FullPath, json);
-            }
-
-            var lastWriteTime = File.GetLastWriteTime(FullPath);
-            if (lastWriteTime <= _lastUpdate)
-            {
                 return false;
             }
-
-            _lastUpdate = lastWriteTime;
 
             MelonModLogger.Log("Updating camera configs");
 
@@ -65,7 +78,7 @@ namespace MelonCameraMod
                 var json = File.ReadAllText($"./{FileName}");
                 JSON.MakeInto(JSON.Load(json), out CameraConfigs);
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
                 MelonModLogger.LogError(e.ToString());
             }
