@@ -8,13 +8,13 @@ To quick-toggle cameras, press ctrl then a digit key. The first config in the li
 
 ### How to use
 
-[Cameras rendereing to 3 courners of the screen](https://github.com/ITR13/ITR-sMelonCameras/SAMPLE1.jpg]
+[Cameras rendereing to 3 courners of the screen](https://github.com/ITR13/ITR-sMelonCameras/SAMPLE1.jpg)
 [Sample 1](https://github.com/ITR13/ITR-sMelonCameras/SAMPLE1.json) shows how you can set up multiple cameras in specific regions (check Rect) at different locations (check LocalPosition)
 
-[Two overlapping cameras rendering over the main view](https://github.com/ITR13/ITR-sMelonCameras/SAMPLE2.jpg]
+[Two overlapping cameras rendering over the main view](https://github.com/ITR13/ITR-sMelonCameras/SAMPLE2.jpg)
 [Sample 2](https://github.com/ITR13/ITR-sMelonCameras/SAMPLE2.json) shows how you can set up an aerial view camera (check LocalPosition and LocalRotation) that renders the player on top of everything else (check NearClipPlane, FarClipPlane, and ClearFlags)
 
-[An orthographic view from above](https://github.com/ITR13/ITR-sMelonCameras/SAMPLE3.jpg]
+[An orthographic view from above](https://github.com/ITR13/ITR-sMelonCameras/SAMPLE3.jpg)
 [Sample 3](https://github.com/ITR13/ITR-sMelonCameras/SAMPLE3.json) shows what an orthographic view looks like.
 
 ### Contact
