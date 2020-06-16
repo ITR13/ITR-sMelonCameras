@@ -2,7 +2,7 @@
 
 ### What it does
 Allows you to spawn cameras that render to your screen similarly to stream cameras.  
-It's very flexible, it reads VRChat\UserData\CameraConfig.json and sets some of the properties you can find [in the unity docs](https://docs.unity3d.com/ScriptReference/Camera.html). 
+It's very flexible, it reads \[Game Root Folder\]\UserData\CameraConfig.json and sets some of the properties you can find [in the unity docs](https://docs.unity3d.com/ScriptReference/Camera.html). 
 
 To quick-toggle cameras, press ctrl then a digit key. The first config in the list is toggled with ctrl+1, all the way to the 10th with ctrl+0.
 
