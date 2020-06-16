@@ -11,16 +11,21 @@ namespace MelonCameraMod
     {
         private const string FileName = "CameraConfig.json";
 
-        private static readonly string FileDirectory =
-            Path.Combine(Environment.CurrentDirectory, "UserData");
+        private static readonly string FileDirectory = Path.Combine(
+            Environment.CurrentDirectory,
+            "UserData"
+        );
 
-        private static readonly string FullPath = FileDirectory + FileName;
+        private static readonly string FullPath = Path.Combine(
+            FileDirectory, 
+            FileName
+        );
 
         public static List<CameraConfig> CameraConfigs =
             new List<CameraConfig>();
 
         private static readonly FileSystemWatcher FileSystemWatcher;
-        private static bool _dirty = true;
+        private static bool _dirty = false;
 
         static ConfigWatcher()
         {
@@ -30,6 +35,7 @@ namespace MelonCameraMod
                 EnableRaisingEvents = true
             };
             FileSystemWatcher.Changed += (_, __) => _dirty = true;
+            _dirty = true;
         }
 
         public static void Unload()
@@ -66,7 +72,6 @@ namespace MelonCameraMod
                     EncodeOptions.PrettyPrint | EncodeOptions.NoTypeHints
                 );
                 File.WriteAllText(FullPath, json);
-                return false;
             }
 
             MelonModLogger.Log("Updating camera configs");
@@ -75,7 +80,7 @@ namespace MelonCameraMod
 
             try
             {
-                var json = File.ReadAllText($"./{FileName}");
+                var json = File.ReadAllText(FullPath);
                 JSON.MakeInto(JSON.Load(json), out CameraConfigs);
             }
             catch (Exception e)
