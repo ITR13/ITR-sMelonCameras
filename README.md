@@ -20,3 +20,5 @@ To quick-toggle cameras, press ctrl then a digit key. The first config in the li
 ### Contact
 To request a feature, either open an issue on github, or send me a DM on discord @ ITR#2941
 Pull-requests are also greatly appreciated
+
+Note that this mod also works in other games than vrchat.
