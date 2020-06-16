@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace VrcCameraMod
+namespace MelonCameraMod
 {
     [System.Serializable]
     public class CameraConfig

@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using MelonLoader;
-using Org.BouncyCastle.Utilities.Zlib;
 using TinyJSON;
 using UnityEngine;
 
-namespace VrcCameraMod
+namespace MelonCameraMod
 {
     static class ConfigWatcher
     {

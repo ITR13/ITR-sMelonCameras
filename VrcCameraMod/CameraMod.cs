@@ -1,10 +1,8 @@
 ﻿using Il2CppSystem.Collections.Generic;
-using Il2CppSystem.Diagnostics.Tracing;
-using Il2CppSystem.Security.Cryptography;
 using MelonLoader;
 using UnityEngine;
 
-namespace VrcCameraMod
+namespace MelonCameraMod
 {
     public class CameraMod : MelonMod
     {

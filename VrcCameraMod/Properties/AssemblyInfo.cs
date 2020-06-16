@@ -1,18 +1,17 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using MelonLoader;
-using VrcCameraMod;
+using MelonCameraMod;
 
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("VrcCameraMod")]
+[assembly: AssemblyTitle("MelonCameraMod")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("VrcCameraMod")]
-[assembly: AssemblyCopyright("Copyright ©  2020")]
+[assembly: AssemblyProduct("MelonCameraMod")]
+[assembly: AssemblyCopyright("Copyright © ITR 2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -36,5 +35,5 @@ using VrcCameraMod;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
-[assembly: MelonModInfo(typeof(CameraMod), "Extra Cameras", "1.0.0", "ITR")]
-[assembly: MelonModGame("VRChat", "VRChat")]
+[assembly: MelonModInfo(typeof(CameraMod), "ITR's Melon Cameras", "1.1.0", "ITR")]
+[assembly: MelonModGame(null, null)]

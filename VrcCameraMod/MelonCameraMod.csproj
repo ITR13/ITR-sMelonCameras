@@ -7,8 +7,8 @@
     <ProjectGuid>{6B8D3F02-CBE0-49FF-A852-3583B459F20C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>VrcCameraMod</RootNamespace>
-    <AssemblyName>VrcCameraMod</AssemblyName>
+    <RootNamespace>MelonCameraMod</RootNamespace>
+    <AssemblyName>MelonCameraMod</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
