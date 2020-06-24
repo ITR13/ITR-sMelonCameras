@@ -31,6 +31,7 @@ namespace MelonCameraMod
         public LayerMask CullingMask;
 
         public string ParentGameObject;
+        public int ParentAscension;
 
         public CameraConfig()
         {
@@ -52,6 +53,7 @@ namespace MelonCameraMod
 
             CullingMask = ~0;
             ParentGameObject = "";
+            ParentAscension = 0;
         }
     }
 }

@@ -64,19 +64,33 @@ namespace MelonCameraMod
                 }
 
                 var child = new GameObject($"Modded Camera {i}");
-                child.transform.parent = _cameraParent.transform;
+                var parent = _cameraParent.transform;
                 if (!string.IsNullOrWhiteSpace(config.ParentGameObject))
                 {
-                    var parent = GameObject.Find(config.ParentGameObject);
+                    var newParent = GameObject.Find(config.ParentGameObject);
                     if (parent == null)
                     {
                         MelonModLogger.Log($"Failed to find gameobject '{config.ParentGameObject}'");
                     }
                     else
                     {
-                        child.transform.parent = parent.transform;
+                        parent = parent.transform;
                     }
                 }
+
+                for (var j = 0; j < config.ParentAscension; j++)
+                {
+                    if (parent.parent == null)
+                    {
+                        MelonModLogger.Log($"Failed to ascend parent {j} times (goal was {config.ParentAscension})");
+                        break;
+                    }
+
+                    parent = parent.parent;
+                }
+
+                child.transform.parent = parent;
+
 
                 var camera = child.AddComponent<Camera>();
                 _cameras.Add(camera);
