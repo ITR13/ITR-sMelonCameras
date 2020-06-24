@@ -65,6 +65,18 @@ namespace MelonCameraMod
 
                 var child = new GameObject($"Modded Camera {i}");
                 child.transform.parent = _cameraParent.transform;
+                if (!string.IsNullOrWhiteSpace(config.ParentGameObject))
+                {
+                    var parent = GameObject.Find(config.ParentGameObject);
+                    if (parent == null)
+                    {
+                        MelonModLogger.Log($"Failed to find gameobject '{config.ParentGameObject}'");
+                    }
+                    else
+                    {
+                        child.transform.parent = parent.transform;
+                    }
+                }
 
                 var camera = child.AddComponent<Camera>();
                 _cameras.Add(camera);

@@ -30,6 +30,8 @@ namespace MelonCameraMod
 
         public LayerMask CullingMask;
 
+        public string ParentGameObject;
+
         public CameraConfig()
         {
             Aspect = 1;
@@ -49,6 +51,7 @@ namespace MelonCameraMod
             UseRotation = false;
 
             CullingMask = ~0;
+            ParentGameObject = "";
         }
     }
 }
