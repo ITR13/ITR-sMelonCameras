@@ -14,6 +14,11 @@ namespace MelonCameraMod
             ConfigWatcher.Unload();
         }
 
+        public override void OnLevelWasInitialized(int level)
+        {
+            _cameraParent = null;
+        }
+
         public override void OnUpdate()
         {
             CheckToggles();
