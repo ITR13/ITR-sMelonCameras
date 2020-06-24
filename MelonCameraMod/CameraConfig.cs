@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+// ReSharper disable InconsistentNaming
 
 namespace MelonCameraMod
 {
@@ -27,6 +28,8 @@ namespace MelonCameraMod
         public float FarClipPlane;
         public float NearClipPlane;
 
+        public LayerMask CullingMask;
+
         public CameraConfig()
         {
             Aspect = 1;
@@ -44,6 +47,8 @@ namespace MelonCameraMod
             Rect = new Rect(0, 0, 1, 1);
             UseAspect = false;
             UseRotation = false;
+
+            CullingMask = ~0;
         }
     }
 }

@@ -104,6 +104,9 @@ namespace MelonCameraMod
                 camera.orthographic = config.Orthographic;
                 camera.orthographicSize = config.OrthographicSize;
                 camera.rect = config.Rect;
+                camera.cullingMask = config.CullingMask;
+
+                camera.eventMask = 0;
             }
         }
     }
