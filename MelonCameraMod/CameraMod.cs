@@ -9,9 +9,6 @@ namespace MelonCameraMod
         private GameObject _cameraParent;
         private readonly List<Camera> _cameras = new List<Camera>();
 
-        private const float UpdateInterval = 1;
-        private float _updateTimer = UpdateInterval;
-
         public override void OnApplicationQuit()
         {
             ConfigWatcher.Unload();
@@ -20,10 +17,6 @@ namespace MelonCameraMod
         public override void OnUpdate()
         {
             CheckToggles();
-
-            _updateTimer -= Time.deltaTime;
-            if(_updateTimer > 0) return;
-            _updateTimer += UpdateInterval;
 
             if (!ConfigWatcher.UpdateIfDirty() && _cameraParent != null) return;
 
