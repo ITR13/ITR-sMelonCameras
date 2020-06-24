@@ -100,6 +100,7 @@ namespace MelonCameraMod
                 camera.cullingMask = config.CullingMask;
 
                 camera.eventMask = 0;
+                camera.stereoTargetEye = StereoTargetEyeMask.None;
             }
         }
     }
