@@ -35,6 +35,9 @@ namespace MelonCameraMod
                 EnableRaisingEvents = true
             };
             FileSystemWatcher.Changed += (_, __) => _dirty = true;
+            FileSystemWatcher.Created += (_, __) => _dirty = true;
+            FileSystemWatcher.Renamed += (_, __) => _dirty = true;
+            FileSystemWatcher.Deleted += (_, __) => _dirty = true;
             _dirty = true;
         }
 
