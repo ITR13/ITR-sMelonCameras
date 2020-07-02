@@ -33,6 +33,10 @@ namespace MelonCameraMod
         public string ParentGameObject;
         public int ParentAscension;
 
+
+        public KeyCode HoldToToggle;
+        public KeyCode PressToToggle;
+
         public CameraConfig()
         {
             Aspect = 1;
@@ -54,6 +58,9 @@ namespace MelonCameraMod
             CullingMask = ~0;
             ParentGameObject = "";
             ParentAscension = 0;
+
+            HoldToToggle = KeyCode.LeftControl;
+            PressToToggle = KeyCode.Alpha0;
         }
     }
 }

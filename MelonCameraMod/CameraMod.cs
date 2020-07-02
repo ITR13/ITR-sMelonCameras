@@ -1,4 +1,4 @@
-﻿using Il2CppSystem.Collections.Generic;
+﻿using System.Collections.Generic;
 using MelonLoader;
 using UnityEngine;
 
@@ -6,8 +6,14 @@ namespace MelonCameraMod
 {
     public class CameraMod : MelonMod
     {
+        private class CameraData
+        {
+            public Camera Camera;
+            public KeyCode Hold, Press;
+        }
+
         private GameObject _cameraParent;
-        private readonly List<Camera> _cameras = new List<Camera>();
+        private readonly List<CameraData> _cameras = new List<CameraData>();
 
         public override void OnApplicationQuit()
         {
@@ -28,30 +34,28 @@ namespace MelonCameraMod
             var mainCamera = Camera.main;
             if (mainCamera == null) return;
             _cameraParent = mainCamera.gameObject;
-            
+
             UpdateCameras();
         }
 
         private void CheckToggles()
         {
-            if (!Input.GetKey(KeyCode.LeftControl)) return;
-            for (var i = 0; i < 10; i++)
+            foreach (var cameraData in _cameras)
             {
-                if (!Input.GetKeyDown(KeyCode.Alpha0 + i)) continue;
-                var index = (i + 9) % 10;
-                if (index < _cameras.Count)
-                {
-                    _cameras[index].enabled = !_cameras[index].enabled;
-                }
+                if (cameraData.Press == KeyCode.None) continue;
+                if (cameraData.Hold != KeyCode.None && !Input.GetKey(cameraData.Hold)) continue;
+                if (!Input.GetKeyDown(cameraData.Press)) continue;
+                if (cameraData.Camera == null) continue;
+                cameraData.Camera.enabled ^= true;
             }
         }
 
         private void UpdateCameras()
         {
-            foreach (var camera in _cameras)
+            foreach (var cameraData in _cameras)
             {
-                if (camera == null || camera.gameObject == null) continue;
-                Object.Destroy(camera.gameObject);
+                if (cameraData.Camera == null) continue;
+                Object.Destroy(cameraData.Camera.gameObject);
             }
             _cameras.Clear();
 
@@ -98,7 +102,14 @@ namespace MelonCameraMod
 
 
                 var camera = child.AddComponent<Camera>();
-                _cameras.Add(camera);
+                _cameras.Add(
+                    new CameraData
+                    {
+                        Camera = camera,
+                        Hold = config.HoldToToggle,
+                        Press = config.PressToToggle,
+                    }
+                );
 
                 camera.enabled = config.Enabled;
                 child.transform.localPosition = config.LocalPosition;
