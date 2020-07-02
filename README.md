@@ -26,44 +26,44 @@ Note that this mod also works in other games than vrchat.
 ### Json Details
 
 #### Toggling Camera
-KeyCode HoldToToggle: This key will have to be held while pressing the key beneath. If set to "None", it will only use PressToToggle  
-KeyCode PressToToggle: When you press this key the camera will toggle its enabled state.  
+**KeyCode HoldToToggle**: This key will have to be held while pressing the key beneath. If set to "None", it will only use PressToToggle  
+**KeyCode PressToToggle**: When you press this key the camera will toggle its enabled state.  
 Both are strings with the names of [KeyCode](https://docs.unity3d.com/ScriptReference/KeyCode.html)s (scroll down to Properties for a list of all)
 
 ####
-string ParentGameObject: Use this if you want to attach the camera to a specific gameobject in the scene.  
+**string ParentGameObject**: Use this if you want to attach the camera to a specific gameobject in the scene.  
 Uses [GameObject.Find](https://docs.unity3d.com/ScriptReference/GameObject.Find.html) to find the object, if none is found, it uses the main camera instead.  
-int ParentAscension: Replaces the parent GameObject with [its parent](https://docs.unity3d.com/ScriptReference/Transform-parent.html) n amount of times, or until the top parent is found.  
+**int ParentAscension**: Replaces the parent GameObject with [its parent](https://docs.unity3d.com/ScriptReference/Transform-parent.html) n amount of times, or until the top parent is found.  
 In VRChat you can set this to 3​ if you want the camera to only rotate on the y axis.  
 
 #### Special bools
-bool UseRotation: Whether or not to override default direction with LocalRotation  
-bool UseAspect: Whether or not to override default aspect ratio with Aspect  
+**bool UseRotation**: Whether or not to override default direction with LocalRotation  
+**bool UseAspect**: Whether or not to override default aspect ratio with Aspect  
 These settings have special behaviour when not set, and therefore need an extra bool to know if you want the zero-value or to not use the value
 
 #### Culling Mask
-LayerMask [CullingMask](https://docs.unity3d.com/ScriptReference/Camera-cullingMask.html)  
+**LayerMask [CullingMask](https://docs.unity3d.com/ScriptReference/Camera-cullingMask.html)**  
 Or the bits for each [layer](http://vrchat.wikidot.com/worlds:layers) you want.  
 Example:  
 To only see yourself you want 18: MirrorReflection, so you do 2^18 = 262144 and put 262144 as your LayerMask  
 To also see other people you want 9: Player too, so you do 2^9 = 512 then 262144 + 512 = 262656 and put 262656 as your LayerMask  
 
 #### Other
-bool [Enabled](https://docs.unity3d.com/ScriptReference/Behaviour-enabled.html)  
-Rect [Rect](https://docs.unity3d.com/ScriptReference/Camera-rect.html)  
+**bool [Enabled](https://docs.unity3d.com/ScriptReference/Behaviour-enabled.html)**  
+**Rect [Rect](https://docs.unity3d.com/ScriptReference/Camera-rect.html)**  
 
-Vector3 [LocalPosition](https://docs.unity3d.com/ScriptReference/Transform-localPosition.html)  
-Quaternion [LocalRotation](https://docs.unity3d.com/ScriptReference/Transform-localPosition.html)  
+**Vector3 [LocalPosition](https://docs.unity3d.com/ScriptReference/Transform-localPosition.html)**  
+**Quaternion [LocalRotation](https://docs.unity3d.com/ScriptReference/Transform-localPosition.html)**  
 
-float [Aspect](https://docs.unity3d.com/ScriptReference/Camera-aspect.html)  
+**float [Aspect](https://docs.unity3d.com/ScriptReference/Camera-aspect.html)**  
 
-float [Depth](https://docs.unity3d.com/ScriptReference/Camera-depth.html)  
-Color [BackgroundColor](https://docs.unity3d.com/ScriptReference/Camera-backgroundColor.html)  
-CameraClearFlags [ClearFlags](https://docs.unity3d.com/ScriptReference/Camera-clearFlags.html)  
+**float [Depth](https://docs.unity3d.com/ScriptReference/Camera-depth.html)**  
+**Color [BackgroundColor](https://docs.unity3d.com/ScriptReference/Camera-backgroundColor.html)**  
+**CameraClearFlags [ClearFlags](https://docs.unity3d.com/ScriptReference/Camera-clearFlags.html)**  
 
-bool [Orthographic](https://docs.unity3d.com/ScriptReference/Camera-orthographic.html)  
-float [FieldOfView](https://docs.unity3d.com/ScriptReference/Camera-fieldOfView.html)  
-float [OrthographicSize}(https://docs.unity3d.com/ScriptReference/Camera-orthographicSize.html)  
+**bool [Orthographic](https://docs.unity3d.com/ScriptReference/Camera-orthographic.html)**  
+**float [FieldOfView](https://docs.unity3d.com/ScriptReference/Camera-fieldOfView.html)**  
+**float [OrthographicSize](https://docs.unity3d.com/ScriptReference/Camera-orthographicSize.html)**  
 
-float [FarClipPlane](https://docs.unity3d.com/ScriptReference/Camera-farClipPlane.html)  
-float [NearClipPlane](https://docs.unity3d.com/ScriptReference/Camera-nearClipPlane.html)  
+**float [FarClipPlane](https://docs.unity3d.com/ScriptReference/Camera-farClipPlane.html)**  
+**float [NearClipPlane](https://docs.unity3d.com/ScriptReference/Camera-nearClipPlane.html)**  
