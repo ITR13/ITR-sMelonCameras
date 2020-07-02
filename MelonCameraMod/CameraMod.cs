@@ -73,13 +73,13 @@ namespace MelonCameraMod
                 if (!string.IsNullOrWhiteSpace(config.ParentGameObject))
                 {
                     var newParent = GameObject.Find(config.ParentGameObject);
-                    if (parent == null)
+                    if (newParent == null)
                     {
                         MelonModLogger.Log($"Failed to find gameobject '{config.ParentGameObject}'");
                     }
                     else
                     {
-                        parent = parent.transform;
+                        parent = newParent.transform;
                     }
                 }
 
