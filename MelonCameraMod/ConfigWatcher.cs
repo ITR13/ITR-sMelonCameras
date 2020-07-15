@@ -17,7 +17,7 @@ namespace MelonCameraMod
         );
 
         private static readonly string FullPath = Path.Combine(
-            FileDirectory, 
+            FileDirectory,
             FileName
         );
 
@@ -63,8 +63,7 @@ namespace MelonCameraMod
                     new CameraConfig
                     {
                         Aspect = 1,
-                        LocalRotation = Quaternion.identity,
-                        Rect = new Rect(0, 0, 0.25f, 0.25f),
+                        Rect = new SerializedRect(0, 0, 0.25f, 0.25f),
                         UseAspect = true,
                         UseRotation = true,
                     }
@@ -89,6 +88,9 @@ namespace MelonCameraMod
             catch (Exception e)
             {
                 MelonModLogger.LogError(e.ToString());
+                MelonModLogger.Log(
+                    "Something went wrong when deserializing json. Check the ReadMe in case something has changed"
+                );
             }
 
             CameraConfigs = CameraConfigs ?? new List<CameraConfig>();
