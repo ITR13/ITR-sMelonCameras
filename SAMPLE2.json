@@ -2,29 +2,29 @@
 	{
 		"Enabled": true,
 		"Rect": {
-			"m_XMin": 0,
-			"m_YMin": 0,
-			"m_Width": 1,
-			"m_Height": 1
+			"X": 0,
+			"Y": 0,
+			"Width": 1,
+			"Height": 1
 		},
 		"LocalPosition": {
-			"x": 0,
-			"y": 8,
-			"z": 4
+			"X": 0,
+			"Y": 8,
+			"Z": 4
 		},
 		"UseRotation": true,
 		"LocalRotation": {
-			"x": 0.8509035,
-			"y": 0,
-			"z": 0,
-			"w": 0.525322
+			"X": 0.8509035,
+			"Y": 0,
+			"Z": 0,
+			"W": 0.525322
 		},
 		"Depth": 1,
 		"BackgroundColor": {
-			"r": 0,
-			"g": 0,
-			"b": 0,
-			"a": 0
+			"R": 0,
+			"G": 0,
+			"B": 0,
+			"A": 0
 		},
 		"ClearFlags": "Skybox",
 		"Orthographic": false,
@@ -36,29 +36,29 @@
 	{
 		"Enabled": true,
 		"Rect": {
-			"m_XMin": 0,
-			"m_YMin": 0,
-			"m_Width": 1,
-			"m_Height": 1
+			"X": 0,
+			"Y": 0,
+			"Width": 1,
+			"Height": 1
 		},
 		"LocalPosition": {
-			"x": 0,
-			"y": 8,
-			"z": 4
+			"X": 0,
+			"Y": 8,
+			"Z": 4
 		},
 		"UseRotation": true,
 		"LocalRotation": {
-			"x": 0.8509035,
-			"y": 0,
-			"z": 0,
-			"w": 0.525322
+			"X": 0.8509035,
+			"Y": 0,
+			"Z": 0,
+			"W": 0.525322
 		},
 		"Depth": 2,
 		"BackgroundColor": {
-			"r": 0,
-			"g": 0,
-			"b": 0,
-			"a": 0
+			"R": 0,
+			"G": 0,
+			"B": 0,
+			"A": 0
 		},
 		"ClearFlags": "Depth",
 		"Orthographic": false,

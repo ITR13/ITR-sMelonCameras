@@ -6,9 +6,9 @@
 		"ClearFlags": "Skybox",
 		"Orthographic": true,
 		"LocalPosition": {
-			"x": 0,
-			"y": 0,
-			"z": -10
+			"X": 0,
+			"Y": 0,
+			"Z": -10
 		},
 	},
 ]
