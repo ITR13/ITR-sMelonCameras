@@ -1,4 +1,5 @@
-***NOTE: DOESN'T WORK IN VR***
+***NOTE: DOESN'T WORK IN VR***  
+Feel free to ask me any questions on discord: ITR#2941  
 
 ### What it does
 Allows you to spawn cameras that render to your screen similarly to stream cameras.  
