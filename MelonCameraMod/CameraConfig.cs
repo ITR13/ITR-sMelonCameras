@@ -31,7 +31,7 @@ namespace MelonCameraMod
         public float FarClipPlane;
         public float NearClipPlane;
 
-        public LayerMask CullingMask;
+        public uint CullingMask;
 
         public string ParentGameObject;
         public int ParentAscension;
@@ -58,7 +58,7 @@ namespace MelonCameraMod
             UseAspect = false;
             UseRotation = false;
 
-            CullingMask = ~0;
+            CullingMask = unchecked((uint)~0);
             ParentGameObject = "";
             ParentAscension = 0;
 
