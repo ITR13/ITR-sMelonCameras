@@ -20,7 +20,7 @@ namespace MelonCameraMod
             ConfigWatcher.Unload();
         }
 
-        public override void OnLevelWasInitialized(int level)
+        public override void OnSceneWasLoaded(int buildIndex, string sceneName)
         {
             _cameraParent = null;
         }
@@ -60,7 +60,7 @@ namespace MelonCameraMod
             _cameras.Clear();
 
             var cameraCount = ConfigWatcher.CameraConfigs?.Count ?? 0;
-            MelonModLogger.Log($"Creating {cameraCount} cameras");
+            MelonLogger.Msg($"Creating {cameraCount} cameras");
 
             for (var i = 0; i < cameraCount; i++)
             {
@@ -68,7 +68,7 @@ namespace MelonCameraMod
                 var config = ConfigWatcher.CameraConfigs[i];
                 if (config == null)
                 {
-                    MelonModLogger.LogWarning($"Camera {i} in config is null");
+                    MelonLogger.Warning($"Camera {i} in config is null");
                     continue;
                 }
 
@@ -79,7 +79,7 @@ namespace MelonCameraMod
                     var newParent = GameObject.Find(config.ParentGameObject);
                     if (newParent == null)
                     {
-                        MelonModLogger.Log($"Failed to find gameobject '{config.ParentGameObject}'");
+                        MelonLogger.Msg($"Failed to find gameobject '{config.ParentGameObject}'");
                     }
                     else
                     {
@@ -91,7 +91,7 @@ namespace MelonCameraMod
                 {
                     if (parent.parent == null)
                     {
-                        MelonModLogger.Log($"Failed to ascend parent {j} times (goal was {config.ParentAscension})");
+                        MelonLogger.Msg($"Failed to ascend parent {j} times (goal was {config.ParentAscension})");
                         break;
                     }
 

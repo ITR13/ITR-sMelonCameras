@@ -11,7 +11,7 @@ using MelonCameraMod;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("MelonCameraMod")]
-[assembly: AssemblyCopyright("Copyright © ITR 2020")]
+[assembly: AssemblyCopyright("Copyright © ITR 2020-2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -35,5 +35,5 @@ using MelonCameraMod;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
-[assembly: MelonModInfo(typeof(CameraMod), "ITR's Melon Cameras", "1.3.0", "ITR")]
-[assembly: MelonModGame(null, null)]
+[assembly: MelonInfo(typeof(CameraMod), "ITR's Melon Cameras", "1.3.1", "ITR")]
+[assembly: MelonGame(null, null)]

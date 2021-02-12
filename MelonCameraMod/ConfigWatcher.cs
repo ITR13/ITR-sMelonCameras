@@ -54,7 +54,7 @@ namespace MelonCameraMod
 
             if (!File.Exists(FullPath))
             {
-                MelonModLogger.Log(
+                MelonLogger.Msg(
                     $"Creating default config file at \"{FullPath}\""
                 );
                 var sampleConfig = new List<CameraConfig>
@@ -76,7 +76,7 @@ namespace MelonCameraMod
                 File.WriteAllText(FullPath, json);
             }
 
-            MelonModLogger.Log("Updating camera configs");
+            MelonLogger.Msg("Updating camera configs");
 
             CameraConfigs.Clear();
 
@@ -87,8 +87,8 @@ namespace MelonCameraMod
             }
             catch (Exception e)
             {
-                MelonModLogger.LogError(e.ToString());
-                MelonModLogger.Log(
+                MelonLogger.Error(e.ToString());
+                MelonLogger.Msg(
                     "Something went wrong when deserializing json. Check the ReadMe in case something has changed"
                 );
             }
