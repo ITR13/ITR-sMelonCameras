@@ -38,6 +38,8 @@ namespace MelonCameraMod
         public KeyCode HoldToToggle;
         public KeyCode PressToToggle;
 
+        public int CameraIndex;
+
         public CameraConfig()
         {
             Aspect = 1;
@@ -62,6 +64,8 @@ namespace MelonCameraMod
 
             HoldToToggle = KeyCode.LeftControl;
             PressToToggle = KeyCode.Alpha0;
+
+            CameraIndex = -1;
         }
     }
 

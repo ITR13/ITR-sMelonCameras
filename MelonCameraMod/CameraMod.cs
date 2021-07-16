@@ -74,7 +74,22 @@ namespace MelonCameraMod
 
                 var child = new GameObject($"Modded Camera {i}");
                 var parent = _cameraParent.transform;
-                if (!string.IsNullOrWhiteSpace(config.ParentGameObject))
+
+                if (config.CameraIndex <= -1)
+                {
+                    var allCamerasCount = Camera.allCamerasCount;
+                    if (config.CameraIndex >= allCamerasCount)
+                    {
+                        MelonLogger.Msg(
+                            $"Failed to find camera with index {config.CameraIndex} (only {allCamerasCount} exist)"
+                        );
+                    }
+                    else
+                    {
+                        parent = Camera.allCameras[config.CameraIndex].gameObject.transform;
+                    }
+                }
+                else if (!string.IsNullOrWhiteSpace(config.ParentGameObject))
                 {
                     var newParent = GameObject.Find(config.ParentGameObject);
                     if (newParent == null)
