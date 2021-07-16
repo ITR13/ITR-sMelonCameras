@@ -8,6 +8,7 @@ namespace MelonCameraMod
     public class CameraConfig
     {
         public bool Enabled;
+        public bool Debug;
 
         public SerializedRect Rect;
         public SerializedVector3 LocalPosition;
@@ -45,6 +46,7 @@ namespace MelonCameraMod
             Aspect = 1;
             BackgroundColor = new SerializedColor(0, 0, 0, 0);
             ClearFlags = CameraClearFlags.SolidColor;
+            Debug = false;
             Depth = 1;
             Enabled = false;
             FarClipPlane = 1000;

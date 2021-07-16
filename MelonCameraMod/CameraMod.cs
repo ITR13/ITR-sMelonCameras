@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Il2CppSystem.Text;
 using MelonLoader;
 using UnityEngine;
 
@@ -72,10 +73,14 @@ namespace MelonCameraMod
                     continue;
                 }
 
+                var debug = config.Debug;
+
                 var child = new GameObject($"Modded Camera {i}");
                 var parent = _cameraParent.transform;
 
-                if (config.CameraIndex <= -1)
+                if (debug) MelonLogger.Msg("Creating " + child.name);
+
+                if (config.CameraIndex > -1)
                 {
                     var allCamerasCount = Camera.allCamerasCount;
                     if (config.CameraIndex >= allCamerasCount)
@@ -87,6 +92,10 @@ namespace MelonCameraMod
                     else
                     {
                         parent = Camera.allCameras[config.CameraIndex].gameObject.transform;
+                        if (debug)
+                        {
+                            MelonLogger.Msg($"Using camera '{parent.name}' (index {config.CameraIndex}) as parent");
+                        }
                     }
                 }
                 else if (!string.IsNullOrWhiteSpace(config.ParentGameObject))
@@ -98,8 +107,13 @@ namespace MelonCameraMod
                     }
                     else
                     {
+                        if (debug) MelonLogger.Msg($"Using obj '{newParent.name}' as parent");
                         parent = newParent.transform;
                     }
+                }
+                else if(config.Debug)
+                {
+                    MelonLogger.Msg("Using main camera obj as parent");
                 }
 
                 for (var j = 0; j < config.ParentAscension; j++)
@@ -111,6 +125,7 @@ namespace MelonCameraMod
                     }
 
                     parent = parent.parent;
+                    if(debug) MelonLogger.Msg($"Ascension {j} to {parent.name}");
                 }
 
                 child.transform.parent = parent;
@@ -158,6 +173,21 @@ namespace MelonCameraMod
 
                 camera.eventMask = 0;
                 camera.stereoTargetEye = StereoTargetEyeMask.None;
+
+                if (debug)
+                {
+                    var sb = new StringBuilder(child.name, 100);
+                    var currentParent = parent;
+                    while (currentParent != null)
+                    {
+                        sb.Insert(0, "/");
+                        sb.Insert(0, currentParent.gameObject.name);
+                        currentParent = currentParent.parent;
+                    }
+
+                    sb.Insert(0, "Finished creating camera with path: ");
+                    MelonLogger.Msg(sb.ToString());
+                }
             }
         }
     }
