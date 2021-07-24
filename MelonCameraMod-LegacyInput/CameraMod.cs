@@ -143,6 +143,11 @@ namespace MelonCameraMod
 
                 camera.enabled = config.Enabled;
                 child.transform.localPosition = config.LocalPosition;
+                if (debug)
+                {
+                    var position = child.transform.localPosition;
+                    MelonLogger.Msg($"Using local position {position.x},{position.x},{position.z}");
+                }
 
                 if (config.UseRotation)
                 {
@@ -156,9 +161,17 @@ namespace MelonCameraMod
                     );
                 }
 
+                if (debug)
+                {
+                    var rotation = child.transform.localRotation;
+                    var word = config.UseRotation ? "local" : "look";
+                    MelonLogger.Msg($"Using {word} rotation {rotation.x},{rotation.y},{rotation.z},{rotation.w}");
+                }
+
                 if (config.UseAspect)
                 {
                     camera.aspect = config.Aspect;
+                    if (debug) MelonLogger.Msg($"Using aspect {config.Aspect}");
                 }
 
                 camera.backgroundColor = config.BackgroundColor;
