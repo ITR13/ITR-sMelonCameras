@@ -36,6 +36,10 @@ namespace MelonCameraMod
         public int ParentAscension;
 
 
+        public bool UseRenderTexture;
+        public int RenderTextureWidth, RenderTextureHeight, RenderTextureDepth;
+        public ScaleMode RenderTextureScaleMode;
+
         public KeyCode HoldToToggle;
         public KeyCode PressToToggle;
 
@@ -63,6 +67,12 @@ namespace MelonCameraMod
             CullingMask = unchecked((uint)~0);
             ParentGameObject = "";
             ParentAscension = 0;
+
+            UseRenderTexture = false;
+            RenderTextureWidth = 512;
+            RenderTextureHeight = 256;
+            RenderTextureDepth = 16;
+            RenderTextureScaleMode = ScaleMode.ScaleAndCrop;
 
             HoldToToggle = KeyCode.LeftControl;
             PressToToggle = KeyCode.Alpha0;

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using Il2CppSystem.Text;
 using MelonLoader;
 using UnityEngine;
@@ -13,8 +14,18 @@ namespace MelonCameraMod
             public KeyCode Hold, Press;
         }
 
+        private class RenderTextureData
+        {
+            public Camera Camera { set; private get; }
+            public bool Enabled => Camera.enabled;
+            public RenderTexture RenderTexture;
+            public Rect Rect;
+            public ScaleMode ScaleMode;
+        }
+
         private GameObject _cameraParent;
         private readonly List<CameraData> _cameras = new List<CameraData>();
+        private readonly List<RenderTextureData> _renderTextures = new List<RenderTextureData>();
 
         public override void OnApplicationQuit()
         {
@@ -51,6 +62,29 @@ namespace MelonCameraMod
             }
         }
 
+        public override void OnGUI() => BlitRenderTextures();
+
+        private void BlitRenderTextures()
+        {
+            if(!Event.current.type.Equals(EventType.Repaint)) return;
+            var screenSize = new Vector2(Screen.width, Screen.height);
+            foreach (var rtData in _renderTextures)
+            {
+                if (!rtData.Enabled) continue;
+                var size = rtData.Rect.size * screenSize;
+                var screenRect = new Rect(
+                    rtData.Rect.position * screenSize,
+                    size
+                );
+                GUI.DrawTexture(
+                    screenRect,
+                    rtData.RenderTexture,
+                    rtData.ScaleMode
+                );
+            }
+        }
+
+
         private void UpdateCameras()
         {
             foreach (var cameraData in _cameras)
@@ -59,6 +93,12 @@ namespace MelonCameraMod
                 Object.Destroy(cameraData.Camera.gameObject);
             }
             _cameras.Clear();
+            foreach (var renderData in _renderTextures)
+            {
+                if(renderData.RenderTexture==null) continue;
+                Object.Destroy(renderData.RenderTexture);
+            }
+            _renderTextures.Clear();
 
             var cameraCount = ConfigWatcher.CameraConfigs?.Count ?? 0;
             MelonLogger.Msg($"Creating {cameraCount} cameras");
@@ -111,7 +151,7 @@ namespace MelonCameraMod
                         parent = newParent.transform;
                     }
                 }
-                else if(config.Debug)
+                else if (config.Debug)
                 {
                     MelonLogger.Msg("Using main camera obj as parent");
                 }
@@ -125,7 +165,7 @@ namespace MelonCameraMod
                     }
 
                     parent = parent.parent;
-                    if(debug) MelonLogger.Msg($"Ascension {j} to {parent.name}");
+                    if (debug) MelonLogger.Msg($"Ascension {j} to {parent.name}");
                 }
 
                 child.transform.parent = parent;
@@ -186,6 +226,38 @@ namespace MelonCameraMod
 
                 camera.eventMask = 0;
                 camera.stereoTargetEye = StereoTargetEyeMask.None;
+
+                if (config.UseRenderTexture)
+                {
+                    if (debug) MelonLogger.Msg("Creating render texture");
+                    var renderTexture = new RenderTexture(
+                        config.RenderTextureWidth, config.RenderTextureHeight,
+                        config.RenderTextureDepth,
+                        RenderTextureFormat.ARGB32
+                    );
+
+                    camera.targetTexture = renderTexture;
+                    camera.aspect = config.RenderTextureWidth / (float) config.RenderTextureHeight;
+                    camera.rect = new Rect(0, 0, 1, 1);
+
+                    var renderRect = new Rect(
+                        config.Rect.X,
+                        1 - config.Rect.Y - config.Rect.Height,
+                        config.Rect.Width,
+                        config.Rect.Height
+                    );
+
+                    _renderTextures.Add(
+                        new RenderTextureData
+                        {
+                            Camera = camera,
+                            RenderTexture = renderTexture,
+                            Rect = renderRect,
+                            ScaleMode = config.RenderTextureScaleMode,
+                        }
+                    );
+                }
+
 
                 if (debug)
                 {
