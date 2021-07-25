@@ -17,15 +17,25 @@ namespace MelonCameraMod
         private class RenderTextureData
         {
             public Camera Camera { set; private get; }
-            public bool Enabled => Camera.enabled;
+            public bool Enabled => Camera != null && Camera.enabled;
             public RenderTexture RenderTexture;
             public Rect Rect;
             public ScaleMode ScaleMode;
         }
 
+        private class PositionData
+        {
+            public Camera Camera { set; private get; }
+            public bool Enabled => Camera != null && Camera.enabled;
+            public Transform Transform;
+            public Vector3 Position;
+            public Quaternion Rotation;
+        }
+
         private GameObject _cameraParent;
         private readonly List<CameraData> _cameras = new List<CameraData>();
         private readonly List<RenderTextureData> _renderTextures = new List<RenderTextureData>();
+        private readonly List<PositionData> _positions = new List<PositionData>();
 
         public override void OnApplicationQuit()
         {
@@ -61,6 +71,19 @@ namespace MelonCameraMod
                 cameraData.Camera.enabled ^= true;
             }
         }
+
+        public override void OnLateUpdate() => UpdatePositions();
+
+        private void UpdatePositions()
+        {
+            foreach (var positionData in _positions)
+            {
+                if(!positionData.Enabled) continue;
+                positionData.Transform.localPosition = positionData.Position;
+                positionData.Transform.localRotation = positionData.Rotation;
+            }
+        }
+
 
         public override void OnGUI() => BlitRenderTextures();
 
@@ -99,6 +122,7 @@ namespace MelonCameraMod
                 Object.Destroy(renderData.RenderTexture);
             }
             _renderTextures.Clear();
+            _positions.Clear();
 
             var cameraCount = ConfigWatcher.CameraConfigs?.Count ?? 0;
             MelonLogger.Msg($"Creating {cameraCount} cameras");
@@ -258,6 +282,19 @@ namespace MelonCameraMod
                     );
                 }
 
+                if (config.ForceUpdatePosition)
+                {
+                    if (debug) MelonLogger.Msg("Creating position data");
+                    _positions.Add(
+                        new PositionData
+                        {
+                            Camera = camera,
+                            Position = config.LocalPosition,
+                            Rotation = child.transform.localRotation,
+                            Transform = child.transform,
+                        }
+                    );
+                }
 
                 if (debug)
                 {
