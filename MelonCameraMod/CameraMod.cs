@@ -27,7 +27,7 @@ namespace MelonCameraMod
         {
             public Camera Camera { set; private get; }
             public bool Enabled => Camera != null && Camera.enabled;
-            public bool PositionIgnoresScale;
+            public bool PositionIgnoresScale, UseRotation;
             public Transform Transform;
             public Vector3 Position;
             public Quaternion Rotation;
@@ -80,15 +80,26 @@ namespace MelonCameraMod
             foreach (var positionData in _positions)
             {
                 if(!positionData.Enabled) continue;
+                var parent = positionData.Transform.parent;
                 if (positionData.PositionIgnoresScale)
                 {
-                    var parent = positionData.Transform.parent;
                     positionData.Transform.position =
                         parent.TransformDirection(positionData.Position) +
                         parent.position;
                 }
-                positionData.Transform.localPosition = positionData.Position;
-                positionData.Transform.localRotation = positionData.Rotation;
+                else
+                {
+                    positionData.Transform.localPosition = positionData.Position;
+                }
+
+                if (positionData.UseRotation)
+                {
+                    positionData.Transform.localRotation = positionData.Rotation;
+                }
+                else
+                {
+                    positionData.Transform.LookAt(parent, parent.up);
+                }
             }
         }
 
@@ -238,8 +249,8 @@ namespace MelonCameraMod
                 else
                 {
                     child.transform.LookAt(
-                        _cameraParent.transform,
-                        _cameraParent.transform.up
+                        parent.transform,
+                        parent.transform.up
                     );
                 }
 
@@ -308,6 +319,7 @@ namespace MelonCameraMod
                         {
                             Camera = camera,
                             PositionIgnoresScale = config.PositionIgnoresScale,
+                            UseRotation = config.UseRotation,
                             Position = config.LocalPosition,
                             Rotation = child.transform.localRotation,
                             Transform = child.transform,
