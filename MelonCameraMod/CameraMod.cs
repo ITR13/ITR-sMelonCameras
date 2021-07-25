@@ -27,6 +27,7 @@ namespace MelonCameraMod
         {
             public Camera Camera { set; private get; }
             public bool Enabled => Camera != null && Camera.enabled;
+            public bool PositionIgnoresScale;
             public Transform Transform;
             public Vector3 Position;
             public Quaternion Rotation;
@@ -79,6 +80,13 @@ namespace MelonCameraMod
             foreach (var positionData in _positions)
             {
                 if(!positionData.Enabled) continue;
+                if (positionData.PositionIgnoresScale)
+                {
+                    var parent = positionData.Transform.parent;
+                    positionData.Transform.position =
+                        parent.TransformDirection(positionData.Position) +
+                        parent.position;
+                }
                 positionData.Transform.localPosition = positionData.Position;
                 positionData.Transform.localRotation = positionData.Rotation;
             }
@@ -206,7 +214,17 @@ namespace MelonCameraMod
                 );
 
                 camera.enabled = config.Enabled;
-                child.transform.localPosition = config.LocalPosition;
+                if (config.PositionIgnoresScale)
+                {
+                    child.transform.position =
+                        parent.TransformDirection(config.LocalPosition) +
+                        parent.position;
+                }
+                else
+                {
+                    child.transform.localPosition = config.LocalPosition;
+                }
+
                 if (debug)
                 {
                     var position = child.transform.localPosition;
@@ -289,6 +307,7 @@ namespace MelonCameraMod
                         new PositionData
                         {
                             Camera = camera,
+                            PositionIgnoresScale = config.PositionIgnoresScale,
                             Position = config.LocalPosition,
                             Rotation = child.transform.localRotation,
                             Transform = child.transform,

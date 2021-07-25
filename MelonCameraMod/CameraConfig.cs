@@ -11,6 +11,7 @@ namespace MelonCameraMod
         public bool Debug;
 
         public bool ForceUpdatePosition;
+        public bool PositionIgnoresScale;
 
         public SerializedRect Rect;
         public SerializedVector3 LocalPosition;
@@ -63,6 +64,7 @@ namespace MelonCameraMod
             NearClipPlane = 0.3f;
             Orthographic = false;
             OrthographicSize = 5;
+            PositionIgnoresScale = false;
             Rect = new SerializedRect(0, 0, 1, 1);
             UseAspect = false;
             UseRotation = false;
