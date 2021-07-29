@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
 using Il2CppSystem.Text;
 using MelonLoader;
 using UnityEngine;
@@ -27,7 +26,7 @@ namespace MelonCameraMod
         {
             public Camera Camera { set; private get; }
             public bool Enabled => Camera != null && Camera.enabled;
-            public bool PositionIgnoresScale, UseRotation;
+            public bool PositionIgnoresScale, StartUpright, UseRotation;
             public Transform Transform;
             public Vector3 Position;
             public Quaternion Rotation;
@@ -95,10 +94,14 @@ namespace MelonCameraMod
                 if (positionData.UseRotation)
                 {
                     positionData.Transform.localRotation = positionData.Rotation;
+
+                    if (!positionData.StartUpright) continue;
+                    var diff = Quaternion.FromToRotation(parent.up, Vector3.up);
+                    positionData.Transform.rotation = diff * positionData.Transform.rotation;
                 }
                 else
                 {
-                    positionData.Transform.LookAt(parent, parent.up);
+                    positionData.Transform.LookAt(parent, positionData.StartUpright ? Vector3.up : parent.up);
                 }
             }
         }
@@ -159,6 +162,7 @@ namespace MelonCameraMod
                 var debug = config.Debug;
 
                 var child = new GameObject($"Modded Camera {i}");
+                var childTransform = child.transform;
                 var parent = _cameraParent.transform;
 
                 if (debug) MelonLogger.Msg("Creating " + child.name);
@@ -218,7 +222,7 @@ namespace MelonCameraMod
                     if (debug) MelonLogger.Msg($"Ascension {j} to {parent.name}");
                 }
 
-                child.transform.parent = parent;
+                childTransform.parent = parent;
 
 
                 var camera = child.AddComponent<Camera>();
@@ -234,20 +238,22 @@ namespace MelonCameraMod
                 camera.enabled = config.Enabled;
                 if (config.PositionIgnoresScale)
                 {
-                    child.transform.position =
+                    childTransform.position =
                         parent.TransformDirection(config.LocalPosition) +
                         parent.position;
                 }
                 else
                 {
-                    child.transform.localPosition = config.LocalPosition;
+                    childTransform.localPosition = config.LocalPosition;
                 }
 
                 if (debug)
                 {
-                    var position = child.transform.localPosition;
+                    var position = childTransform.localPosition;
                     MelonLogger.Msg($"Using local position {position.x},{position.x},{position.z}");
                 }
+
+                var eulerOrRotation = config.UseRotation || config.UseEuler;
 
                 if (config.UseEuler)
                 {
@@ -256,24 +262,24 @@ namespace MelonCameraMod
                         MelonLogger.Warning("Both UseEuler and UseRotation are true, using Euler");
                     }
 
-                    child.transform.localEulerAngles = config.EulerAngles;
+                    childTransform.localEulerAngles = config.EulerAngles;
                 }
                 else if (config.UseRotation)
                 {
-                    child.transform.localRotation = config.LocalRotation;
+                    childTransform.localRotation = config.LocalRotation;
                 }
                 else
                 {
-                    child.transform.LookAt(
+                    childTransform.LookAt(
                         parent.transform,
-                        parent.transform.up
+                        config.StartUpright ? Vector3.up : parent.transform.up
                     );
                 }
-
+                
                 if (debug)
                 {
-                    var rotation = child.transform.localRotation;
-                    var word = config.UseRotation ? "local" : "look";
+                    var rotation = childTransform.localRotation;
+                    var word = eulerOrRotation ? "local" : "look";
                     MelonLogger.Msg($"Using {word} rotation {rotation.x},{rotation.y},{rotation.z},{rotation.w}");
                 }
 
@@ -337,12 +343,25 @@ namespace MelonCameraMod
                         {
                             Camera = camera,
                             PositionIgnoresScale = config.PositionIgnoresScale,
-                            UseRotation = config.UseRotation || config.UseEuler,
+                            StartUpright = config.StartUpright,
+                            UseRotation = eulerOrRotation,
                             Position = config.LocalPosition,
-                            Rotation = child.transform.localRotation,
-                            Transform = child.transform,
+                            Rotation = childTransform.localRotation,
+                            Transform = childTransform,
                         }
                     );
+                }
+
+                if (eulerOrRotation && config.StartUpright)
+                {
+                    var diff = Quaternion.FromToRotation(parent.up, Vector3.up);
+                    var rotation = diff * childTransform.rotation;
+                    childTransform.rotation = rotation;
+
+                    if (debug)
+                        MelonLogger.Msg(
+                            $"Moved child to local rotation  {rotation.x},{rotation.y},{rotation.z},{rotation.w}"
+                        );
                 }
 
                 if (debug)

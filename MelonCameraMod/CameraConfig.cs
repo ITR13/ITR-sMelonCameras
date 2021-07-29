@@ -16,6 +16,7 @@ namespace MelonCameraMod
         public SerializedRect Rect;
         public SerializedVector3 LocalPosition;
 
+        public bool StartUpright;
         public bool UseRotation;
         public SerializedQuaternion LocalRotation;
         public bool UseEuler;
