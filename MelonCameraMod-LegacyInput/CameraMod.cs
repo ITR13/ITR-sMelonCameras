@@ -274,6 +274,7 @@ namespace MelonCameraMod
                 camera.nearClipPlane = config.NearClipPlane;
                 camera.orthographic = config.Orthographic;
                 camera.orthographicSize = config.OrthographicSize;
+                camera.fieldOfView = config.FieldOfView;
                 camera.rect = config.Rect;
                 camera.cullingMask = (int)config.CullingMask;
 
