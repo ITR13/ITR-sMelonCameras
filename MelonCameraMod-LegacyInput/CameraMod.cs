@@ -163,7 +163,27 @@ namespace MelonCameraMod
 
                 if (debug) MelonLogger.Msg("Creating " + child.name);
 
-                if (config.CameraIndex > -1)
+                if (!string.IsNullOrWhiteSpace(config.ParentGameObject))
+                {
+                    if (config.CameraIndex > -1)
+                    {
+                        MelonLogger.Warning(
+                            $"Both CameraIndex and ParentGameObject are set for Camera {i}, using ParentGameObject"
+                        );
+                    }
+
+                    var newParent = GameObject.Find(config.ParentGameObject);
+                    if (newParent == null)
+                    {
+                        MelonLogger.Msg($"Failed to find gameobject '{config.ParentGameObject}'");
+                    }
+                    else
+                    {
+                        if (debug) MelonLogger.Msg($"Using obj '{newParent.name}' as parent");
+                        parent = newParent.transform;
+                    }
+                }
+                else if (config.CameraIndex > -1)
                 {
                     var allCamerasCount = Camera.allCamerasCount;
                     if (config.CameraIndex >= allCamerasCount)
@@ -179,19 +199,6 @@ namespace MelonCameraMod
                         {
                             MelonLogger.Msg($"Using camera '{parent.name}' (index {config.CameraIndex}) as parent");
                         }
-                    }
-                }
-                else if (!string.IsNullOrWhiteSpace(config.ParentGameObject))
-                {
-                    var newParent = GameObject.Find(config.ParentGameObject);
-                    if (newParent == null)
-                    {
-                        MelonLogger.Msg($"Failed to find gameobject '{config.ParentGameObject}'");
-                    }
-                    else
-                    {
-                        if (debug) MelonLogger.Msg($"Using obj '{newParent.name}' as parent");
-                        parent = newParent.transform;
                     }
                 }
                 else if (config.Debug)
@@ -242,7 +249,16 @@ namespace MelonCameraMod
                     MelonLogger.Msg($"Using local position {position.x},{position.x},{position.z}");
                 }
 
-                if (config.UseRotation)
+                if (config.UseEuler)
+                {
+                    if (config.UseRotation)
+                    {
+                        MelonLogger.Warning("Both UseEuler and UseRotation are true, using Euler");
+                    }
+
+                    child.transform.localEulerAngles = config.EulerAngles;
+                }
+                else if (config.UseRotation)
                 {
                     child.transform.localRotation = config.LocalRotation;
                 }
@@ -276,7 +292,7 @@ namespace MelonCameraMod
                 camera.orthographicSize = config.OrthographicSize;
                 camera.fieldOfView = config.FieldOfView;
                 camera.rect = config.Rect;
-                camera.cullingMask = (int)config.CullingMask;
+                camera.cullingMask = (int) config.CullingMask;
 
                 camera.eventMask = 0;
                 camera.stereoTargetEye = StereoTargetEyeMask.None;
@@ -285,7 +301,8 @@ namespace MelonCameraMod
                 {
                     if (debug) MelonLogger.Msg("Creating render texture");
                     var renderTexture = new RenderTexture(
-                        config.RenderTextureWidth, config.RenderTextureHeight,
+                        config.RenderTextureWidth,
+                        config.RenderTextureHeight,
                         config.RenderTextureDepth,
                         RenderTextureFormat.ARGB32
                     );
@@ -320,7 +337,7 @@ namespace MelonCameraMod
                         {
                             Camera = camera,
                             PositionIgnoresScale = config.PositionIgnoresScale,
-                            UseRotation = config.UseRotation,
+                            UseRotation = config.UseRotation || config.UseEuler,
                             Position = config.LocalPosition,
                             Rotation = child.transform.localRotation,
                             Transform = child.transform,

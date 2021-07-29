@@ -18,6 +18,8 @@ namespace MelonCameraMod
 
         public bool UseRotation;
         public SerializedQuaternion LocalRotation;
+        public bool UseEuler;
+        public SerializedVector3 EulerAngles;
 
         public bool UseAspect;
         public float Aspect;
