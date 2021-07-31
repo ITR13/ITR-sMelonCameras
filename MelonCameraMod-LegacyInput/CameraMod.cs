@@ -32,10 +32,17 @@ namespace MelonCameraMod
             public Quaternion Rotation;
         }
 
+        private class FovData
+        {
+            public Camera Camera;
+            public float Fov;
+        }
+
         private GameObject _cameraParent;
         private readonly List<CameraData> _cameras = new List<CameraData>();
         private readonly List<RenderTextureData> _renderTextures = new List<RenderTextureData>();
         private readonly List<PositionData> _positions = new List<PositionData>();
+        private readonly List<FovData> _fovs = new List<FovData>();
 
         public override void OnApplicationQuit()
         {
@@ -72,7 +79,11 @@ namespace MelonCameraMod
             }
         }
 
-        public override void OnLateUpdate() => UpdatePositions();
+        public override void OnLateUpdate()
+        {
+            UpdatePositions();
+            UpdateFovs();
+        }
 
         private void UpdatePositions()
         {
@@ -106,6 +117,15 @@ namespace MelonCameraMod
             }
         }
 
+        private void UpdateFovs()
+        {
+            foreach (var fovData in _fovs)
+            {
+                if (fovData.Camera == null) continue;
+                fovData.Camera.fieldOfView = fovData.Fov;
+            }
+        }
+
 
         public override void OnGUI() => BlitRenderTextures();
 
@@ -132,36 +152,42 @@ namespace MelonCameraMod
 
         private void UpdateCameras()
         {
-            foreach (var cameraData in _cameras)
+            // Clear old data
             {
-                if (cameraData.Camera == null) continue;
-                Object.Destroy(cameraData.Camera.gameObject);
+                foreach (var cameraData in _cameras)
+                {
+                    if (cameraData.Camera == null) continue;
+                    Object.Destroy(cameraData.Camera.gameObject);
+                }
+
+                _cameras.Clear();
+                foreach (var renderData in _renderTextures)
+                {
+                    if (renderData.RenderTexture == null) continue;
+                    Object.Destroy(renderData.RenderTexture);
+                }
+
+                _renderTextures.Clear();
+                _positions.Clear();
+                _fovs.Clear();
             }
-            _cameras.Clear();
-            foreach (var renderData in _renderTextures)
-            {
-                if(renderData.RenderTexture==null) continue;
-                Object.Destroy(renderData.RenderTexture);
-            }
-            _renderTextures.Clear();
-            _positions.Clear();
 
             var cameraCount = ConfigWatcher.CameraConfigs?.Count ?? 0;
             MelonLogger.Msg($"Creating {cameraCount} cameras");
 
-            for (var i = 0; i < cameraCount; i++)
+            void CreateCamera(int configIndex)
             {
                 // ReSharper disable once PossibleNullReferenceException
-                var config = ConfigWatcher.CameraConfigs[i];
+                var config = ConfigWatcher.CameraConfigs[configIndex];
                 if (config == null)
                 {
-                    MelonLogger.Warning($"Camera {i} in config is null");
-                    continue;
+                    MelonLogger.Warning($"Camera {configIndex} in config is null");
+                    return;
                 }
 
                 var debug = config.Debug;
 
-                var child = new GameObject($"Modded Camera {i}");
+                var child = new GameObject($"Modded Camera {configIndex}");
                 var childTransform = child.transform;
                 var parent = _cameraParent.transform;
 
@@ -170,11 +196,9 @@ namespace MelonCameraMod
                 if (!string.IsNullOrWhiteSpace(config.ParentGameObject))
                 {
                     if (config.CameraIndex > -1)
-                    {
                         MelonLogger.Warning(
-                            $"Both CameraIndex and ParentGameObject are set for Camera {i}, using ParentGameObject"
+                            $"Both CameraIndex and ParentGameObject are set for Camera {configIndex}, using ParentGameObject"
                         );
-                    }
 
                     var newParent = GameObject.Find(config.ParentGameObject);
                     if (newParent == null)
@@ -199,10 +223,7 @@ namespace MelonCameraMod
                     else
                     {
                         parent = Camera.allCameras[config.CameraIndex].gameObject.transform;
-                        if (debug)
-                        {
-                            MelonLogger.Msg($"Using camera '{parent.name}' (index {config.CameraIndex}) as parent");
-                        }
+                        if (debug) MelonLogger.Msg($"Using camera '{parent.name}' (index {config.CameraIndex}) as parent");
                     }
                 }
                 else if (config.Debug)
@@ -237,15 +258,11 @@ namespace MelonCameraMod
 
                 camera.enabled = config.Enabled;
                 if (config.PositionIgnoresScale)
-                {
                     childTransform.position =
                         parent.TransformDirection(config.LocalPosition) +
                         parent.position;
-                }
                 else
-                {
                     childTransform.localPosition = config.LocalPosition;
-                }
 
                 if (debug)
                 {
@@ -257,10 +274,7 @@ namespace MelonCameraMod
 
                 if (config.UseEuler)
                 {
-                    if (config.UseRotation)
-                    {
-                        MelonLogger.Warning("Both UseEuler and UseRotation are true, using Euler");
-                    }
+                    if (config.UseRotation) MelonLogger.Warning("Both UseEuler and UseRotation are true, using Euler");
 
                     childTransform.localEulerAngles = config.EulerAngles;
                 }
@@ -280,7 +294,9 @@ namespace MelonCameraMod
                 if (debug)
                 {
                     var word = eulerOrRotation ? "local" : "look";
-                    MelonLogger.Msg($"Using {word} rotation {localRotation.x},{localRotation.y},{localRotation.z},{localRotation.w}");
+                    MelonLogger.Msg(
+                        $"Using {word} rotation {localRotation.x},{localRotation.y},{localRotation.z},{localRotation.w}"
+                    );
                 }
 
                 if (config.UseAspect)
@@ -352,6 +368,18 @@ namespace MelonCameraMod
                     );
                 }
 
+                if (config.ForceUpdateFov)
+                {
+                    if(debug) MelonLogger.Msg($"Creating fov data #{_fovs.Count}");
+                    _fovs.Add(
+                        new FovData
+                        {
+                            Camera = camera,
+                            Fov = config.FieldOfView,
+                        }
+                    );
+                }
+
                 if (eulerOrRotation && config.StartUpright)
                 {
                     var diff = Quaternion.FromToRotation(parent.up, Vector3.up);
@@ -364,20 +392,23 @@ namespace MelonCameraMod
                         );
                 }
 
-                if (debug)
+                if (!debug) return;
+                var sb = new StringBuilder(child.name, 100);
+                var currentParent = parent;
+                while (currentParent != null)
                 {
-                    var sb = new StringBuilder(child.name, 100);
-                    var currentParent = parent;
-                    while (currentParent != null)
-                    {
-                        sb.Insert(0, "/");
-                        sb.Insert(0, currentParent.gameObject.name);
-                        currentParent = currentParent.parent;
-                    }
-
-                    sb.Insert(0, "Finished creating camera with path: ");
-                    MelonLogger.Msg(sb.ToString());
+                    sb.Insert(0, "/");
+                    sb.Insert(0, currentParent.gameObject.name);
+                    currentParent = currentParent.parent;
                 }
+
+                sb.Insert(0, "Finished creating camera with path: ");
+                MelonLogger.Msg(sb.ToString());
+            }
+
+            for (var i = 0; i < cameraCount; i++)
+            {
+                CreateCamera(i);
             }
         }
     }

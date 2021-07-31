@@ -29,6 +29,7 @@ namespace MelonCameraMod
         public SerializedColor BackgroundColor;
         public CameraClearFlags ClearFlags;
 
+        public bool ForceUpdateFov;
         public bool Orthographic;
         public float FieldOfView;
         public float OrthographicSize;
