@@ -35,5 +35,5 @@ using MelonCameraMod;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
-[assembly: MelonInfo(typeof(CameraMod), "ITR's Melon Cameras", "1.4.1", "ITR")]
+[assembly: MelonInfo(typeof(CameraMod), "ITR's Melon Cameras", "1.4.2", "ITR")]
 [assembly: MelonGame(null, null)]
