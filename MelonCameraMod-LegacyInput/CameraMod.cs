@@ -275,12 +275,12 @@ namespace MelonCameraMod
                         config.StartUpright ? Vector3.up : parent.transform.up
                     );
                 }
-                
+
+                var localRotation = childTransform.localRotation;
                 if (debug)
                 {
-                    var rotation = childTransform.localRotation;
                     var word = eulerOrRotation ? "local" : "look";
-                    MelonLogger.Msg($"Using {word} rotation {rotation.x},{rotation.y},{rotation.z},{rotation.w}");
+                    MelonLogger.Msg($"Using {word} rotation {localRotation.x},{localRotation.y},{localRotation.z},{localRotation.w}");
                 }
 
                 if (config.UseAspect)
@@ -305,7 +305,7 @@ namespace MelonCameraMod
 
                 if (config.UseRenderTexture)
                 {
-                    if (debug) MelonLogger.Msg("Creating render texture");
+                    if (debug) MelonLogger.Msg($"Creating render texture #{_renderTextures.Count}");
                     var renderTexture = new RenderTexture(
                         config.RenderTextureWidth,
                         config.RenderTextureHeight,
@@ -337,7 +337,7 @@ namespace MelonCameraMod
 
                 if (config.ForceUpdatePosition)
                 {
-                    if (debug) MelonLogger.Msg("Creating position data");
+                    if (debug) MelonLogger.Msg($"Creating position data #{_positions.Count}");
                     _positions.Add(
                         new PositionData
                         {
@@ -346,7 +346,7 @@ namespace MelonCameraMod
                             StartUpright = config.StartUpright,
                             UseRotation = eulerOrRotation,
                             Position = config.LocalPosition,
-                            Rotation = childTransform.localRotation,
+                            Rotation = localRotation,
                             Transform = childTransform,
                         }
                     );
