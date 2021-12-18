@@ -90,3 +90,5 @@ The default RenderTextureScaleMode is ScaleAndCrop, so you want the aspect ratio
 **bool ForceUpdatePosition**: If true then the camera will update it's position in late update. Use this if a game forcibly tries to move all cameras or does other dumb stuff.
 
 **bool PositionIgnoresScale**: If the parent object's scale might vary but you want the position to stay the same have this be true. Only use with ForceUpdatePosition = true.
+
+**bool FollowOriginalParent**: If this is true, the x and z position of the parent found *before* applying ParentAscension is added to the camera's offset. Only use with ForceUpdatePosition = true and ParentAscension > 0.
