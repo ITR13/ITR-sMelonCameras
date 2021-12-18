@@ -1,10 +1,18 @@
-﻿using MelonLoader.TinyJSON;
+﻿using System;
+using System.Collections.Generic;
+using Tomlet;
 using UnityEngine;
 // ReSharper disable InconsistentNaming
 
 namespace MelonCameraMod
 {
-    [System.Serializable]
+    [Serializable]
+    public class FullConfig
+    {
+        public List<CameraConfig> CameraConfigs = new List<CameraConfig>();
+    }
+
+    [Serializable]
     public class CameraConfig
     {
         public bool Enabled;
@@ -90,7 +98,7 @@ namespace MelonCameraMod
         }
     }
 
-    [System.Serializable]
+    [Serializable]
     public class SerializedRect
     {
         public float X, Y, Width, Height;
@@ -111,7 +119,7 @@ namespace MelonCameraMod
         }
     }
 
-    [System.Serializable]
+    [Serializable]
     public class SerializedVector3
     {
         public float X, Y, Z;
@@ -131,7 +139,7 @@ namespace MelonCameraMod
         }
     }
 
-    [System.Serializable]
+    [Serializable]
     public class SerializedQuaternion
     {
         public float X, Y, Z, W;
@@ -153,7 +161,7 @@ namespace MelonCameraMod
     }
 
 
-    [System.Serializable]
+    [Serializable]
     public class SerializedColor
     {
         public float Red, Green, Blue, Alpha;

@@ -172,13 +172,13 @@ namespace MelonCameraMod
                 _fovs.Clear();
             }
 
-            var cameraCount = ConfigWatcher.CameraConfigs?.Count ?? 0;
+            var cameraCount = ConfigWatcher.Config?.CameraConfigs?.Count ?? 0;
             MelonLogger.Msg($"Creating {cameraCount} cameras");
 
             void CreateCamera(int configIndex)
             {
                 // ReSharper disable once PossibleNullReferenceException
-                var config = ConfigWatcher.CameraConfigs[configIndex];
+                var config = ConfigWatcher.Config.CameraConfigs[configIndex];
                 if (config == null)
                 {
                     MelonLogger.Warning($"Camera {configIndex} in config is null");
