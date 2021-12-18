@@ -63,7 +63,7 @@ namespace MelonCameraMod
 
             File.Move(OldFullPath, movedOldFullPath);
 
-            MelonLogger.Msg($"Found json config at \"{OldFullPath}\", converting to toml config");
+            CameraMod.Msg($"Found json config at \"{OldFullPath}\", converting to toml config");
 
             List<CameraConfig> oldConfigs;
             try
@@ -73,8 +73,8 @@ namespace MelonCameraMod
             }
             catch (Exception e)
             {
-                MelonLogger.Error(e.ToString());
-                MelonLogger.Msg(
+                CameraMod.Error(e.ToString());
+                CameraMod.Msg(
                     "Something went wrong when deserializing json. Check the ReadMe in case something has changed"
                 );
                 return;
@@ -87,7 +87,7 @@ namespace MelonCameraMod
 
             try
             {
-                MelonLogger.Msg(
+                CameraMod.Msg(
                     $"Creating toml file based on old json file at \"{FullPath}\""
                 );
 
@@ -96,8 +96,8 @@ namespace MelonCameraMod
             }
             catch (Exception e)
             {
-                MelonLogger.Error(e.ToString());
-                MelonLogger.Msg(
+                CameraMod.Error(e.ToString());
+                CameraMod.Msg(
                     "Something went wrong when serializing toml"
                 );
             }
@@ -115,7 +115,7 @@ namespace MelonCameraMod
 
             if (!File.Exists(FullPath))
             {
-                MelonLogger.Msg(
+                CameraMod.Msg(
                     $"Creating default config file at \"{FullPath}\""
                 );
                 var sampleConfig = new FullConfig
@@ -137,7 +137,7 @@ namespace MelonCameraMod
                 File.WriteAllText(FullPath, toml);
             }
 
-            MelonLogger.Msg("Updating camera configs");
+            CameraMod.Msg("Updating camera configs");
             
             try
             {
@@ -146,8 +146,8 @@ namespace MelonCameraMod
             }
             catch (Exception e)
             {
-                MelonLogger.Error(e.ToString());
-                MelonLogger.Msg(
+                CameraMod.Error(e.ToString());
+                CameraMod.Msg(
                     "Something went wrong when deserializing toml. Check the ReadMe in case something has changed"
                 );
             }

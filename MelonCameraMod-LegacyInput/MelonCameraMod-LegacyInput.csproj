@@ -32,6 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="CameraConfig.cs" />
+    <Compile Include="CameraHandler.cs" />
     <Compile Include="CameraMod.cs" />
     <Compile Include="ConfigWatcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
