@@ -1,0 +1,14 @@
+[[CameraConfigs]]
+Enabled = true
+Depth = 1
+UseRotation = true
+ClearFlags = "Skybox"
+Orthographic = true
+OrthographicSize = 5
+
+[CameraConfigs.LocalPosition]
+X = 0
+Y = 0
+Z = -10
+
+

@@ -1,0 +1,72 @@
+[[CameraConfigs]]
+Enabled = true
+ClearFlags = "Skybox"
+FieldOfView = 60
+FarClipPlane = 3
+NearClipPlane = 0.3
+
+[CameraConfigs.Rect]
+X = 0.75
+Y = 0.75
+Width = 0.25
+Height = 0.25
+
+[CameraConfigs.LocalPosition]
+X = -1.5
+Y = 0.5
+Z = 1
+
+
+[[CameraConfigs]]
+Enabled = true
+ClearFlags = "Skybox"
+FieldOfView = 60
+FarClipPlane = 3
+NearClipPlane = 0.3
+UseRotation = true
+
+[CameraConfigs.Rect]
+X = 0
+Y = 0.75
+Width = 0.25
+Height = 0.25
+
+[CameraConfigs.LocalPosition]
+X = 1.5
+Y = 0.5
+Z = 1
+
+[CameraConfigs.LocalRotation]
+X = 0
+Y = 0
+Z = 0
+W = 1
+
+
+[[CameraConfigs]]
+Enabled = true
+ClearFlags = "Skybox"
+FieldOfView = 60
+FarClipPlane = 3
+NearClipPlane = 0.3
+
+[CameraConfigs.Rect]
+X = 0.75
+Y = 0
+Width = 0.25
+Height = 0.25
+
+[CameraConfigs.LocalPosition]
+X = 0
+Y = 0.5
+Z = 0.8
+
+[CameraConfigs.LocalRotation]
+X = 0
+Y = 0.980785310268402
+Z = -0.195090293884277
+W = 0
+
+
+
+

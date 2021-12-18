@@ -1,0 +1,59 @@
+[[CameraConfigs]]
+Enabled = true
+ClearFlags = "Skybox"
+FieldOfView = 60
+FarClipPlane = 1000
+NearClipPlane = 0.3
+CullingMask = 4294704639
+ParentAscension = 3
+Depth = 1
+
+[CameraConfigs.Rect]
+X = 0
+Y = 0
+Width = 1
+Height = 1
+
+[CameraConfigs.LocalPosition]
+X = 0
+Y = 8
+Z = -4
+
+
+[CameraConfigs.BackgroundColor]
+Red = 0
+Green = 0
+Blue = 0
+Alpha = 0
+
+
+[[CameraConfigs]]
+FarClipPlane = 1000
+NearClipPlane = 0.3
+Enabled = true
+ClearFlags = "Depth"
+FieldOfView = 60
+CullingMask = 262656
+ParentAscension = 3
+Depth = 2
+
+[CameraConfigs.Rect]
+X = 0
+Y = 0
+Width = 1
+Height = 1
+
+[CameraConfigs.LocalPosition]
+X = 0
+Y = 8
+Z = -4
+
+[CameraConfigs.BackgroundColor]
+Red = 0
+Green = 0
+Blue = 0
+Alpha = 0
+
+
+
+
