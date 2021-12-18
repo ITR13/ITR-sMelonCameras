@@ -263,6 +263,7 @@ namespace MelonCameraMod_LegacyInput
                 var positionMarkers = new Transform[0];
                 if (config.UseAvatarAsBasePosition)
                 {
+                    // Not properly implemented!
                     positionMarkers = FindPositionMarkers(debug, configIndex, parent, parent.parent);
                 }
 

@@ -49,6 +49,7 @@ namespace MelonCameraMod
         public string ParentGameObject;
         public int ParentAscension;
 
+        // Not properly implemented!
         public bool UseAvatarAsBasePosition;
 
         public bool UseRenderTexture;
