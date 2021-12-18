@@ -48,6 +48,7 @@ namespace MelonCameraMod
 
         public string ParentGameObject;
         public int ParentAscension;
+        public bool FollowOriginalParent;
 
         // Not properly implemented!
         public bool UseAvatarAsBasePosition;

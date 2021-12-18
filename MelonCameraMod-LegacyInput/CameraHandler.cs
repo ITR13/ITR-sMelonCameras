@@ -30,7 +30,9 @@ namespace MelonCameraMod_LegacyInput
             public Camera Camera { set; private get; }
             public bool Enabled => Camera != null && Camera.enabled;
             public bool PositionIgnoresScale, StartUpright, UseRotation;
-            public Transform Transform;
+            public bool FollowOriginalParent;
+
+            public Transform Transform, OriginalTransform;
             public Vector3 Position;
             public Quaternion Rotation;
             public Transform[] PositionMarkers;
@@ -95,6 +97,13 @@ namespace MelonCameraMod_LegacyInput
                     offset /= positionData.PositionMarkers.Length;
                     offset.y = minY;
                     offset -= parent.position;
+                }
+
+                if (positionData.FollowOriginalParent)
+                {
+                    var childOffset = positionData.OriginalTransform.position - positionData.Transform.parent.position;
+                    childOffset.y = 0;
+                    offset += childOffset;
                 }
 
                 if (positionData.PositionIgnoresScale)
@@ -233,6 +242,7 @@ namespace MelonCameraMod_LegacyInput
                     CameraMod.Msg("Using main camera obj as parent");
                 }
 
+                var originalParent = parent;
                 for (var j = 0; j < config.ParentAscension; j++)
                 {
                     if (parent.parent == null)
@@ -246,6 +256,19 @@ namespace MelonCameraMod_LegacyInput
                 }
 
                 childTransform.parent = parent;
+
+                if (config.FollowOriginalParent)
+                {
+                    if (!config.ForceUpdatePosition)
+                    {
+                        CameraMod.Warning("FollowOriginalParent is true, but ForceUpdatePosition isn't set");
+                    }
+                    else if (config.ParentAscension == 0)
+                    {
+                        CameraMod.Warning("FollowOriginalParent is true, but ParentAscension is 0");
+                        config.FollowOriginalParent = false;
+                    }
+                }
 
 
                 var camera = child.AddComponent<Camera>();
@@ -375,6 +398,9 @@ namespace MelonCameraMod_LegacyInput
                             Rotation = localRotation,
                             Transform = childTransform,
                             PositionMarkers = positionMarkers,
+
+                            FollowOriginalParent = config.FollowOriginalParent,
+                            OriginalTransform = originalParent,
                         }
                     );
                 }
