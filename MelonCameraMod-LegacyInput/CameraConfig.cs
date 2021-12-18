@@ -71,7 +71,7 @@ namespace MelonCameraMod
             FarClipPlane = 1000;
             FieldOfView = 60;
             ForceUpdatePosition = false;
-            LocalPosition = new SerializedVector3(-1.5f, 0.5f, 1f);
+            LocalPosition = new SerializedVector3(0, 0, 0);
             LocalRotation = new SerializedQuaternion(0, 0, 0, 1);
             NearClipPlane = 0.3f;
             Orthographic = false;
