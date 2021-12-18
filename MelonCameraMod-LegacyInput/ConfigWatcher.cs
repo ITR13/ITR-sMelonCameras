@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using MelonLoader;
 using MelonLoader.TinyJSON;
 using Tomlet;
-using UnityEngine;
 
 namespace MelonCameraMod
 {

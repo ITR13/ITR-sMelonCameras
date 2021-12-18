@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using Il2CppSystem.Text;
 using MelonCameraMod_LegacyInput;
 using MelonLoader;
-using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace MelonCameraMod
 {
