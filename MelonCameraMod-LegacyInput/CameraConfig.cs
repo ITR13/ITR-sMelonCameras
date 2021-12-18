@@ -49,6 +49,7 @@ namespace MelonCameraMod
         public string ParentGameObject;
         public int ParentAscension;
 
+        public bool UseAvatarAsBasePosition;
 
         public bool UseRenderTexture;
         public int RenderTextureWidth, RenderTextureHeight, RenderTextureDepth;
@@ -80,6 +81,7 @@ namespace MelonCameraMod
             UseAspect = false;
             UseRotation = false;
 
+            UseAvatarAsBasePosition = false;
             CullingMask = unchecked((uint)~0);
             ParentGameObject = "";
             ParentAscension = 0;

@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using Il2CppSystem;
 using MelonCameraMod;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -31,6 +33,7 @@ namespace MelonCameraMod_LegacyInput
             public Transform Transform;
             public Vector3 Position;
             public Quaternion Rotation;
+            public Transform[] PositionMarkers;
         }
 
         private class FovData
@@ -75,16 +78,34 @@ namespace MelonCameraMod_LegacyInput
             foreach (var positionData in _positions)
             {
                 if (!positionData.Enabled) continue;
+
                 var parent = positionData.Transform.parent;
+
+                var offset = Vector3.zero;
+                if (positionData.PositionMarkers.Length > 0)
+                {
+                    var minY = positionData.PositionMarkers[0].position.y;
+                    foreach (var marker in positionData.PositionMarkers)
+                    {
+                        var markerPos = marker.position;
+                        offset += markerPos;
+                        if (minY < markerPos.y) minY = markerPos.y;
+                    }
+
+                    offset /= positionData.PositionMarkers.Length;
+                    offset.y = minY;
+                    offset -= parent.position;
+                }
+
                 if (positionData.PositionIgnoresScale)
                 {
-                    positionData.Transform.position =
+                    positionData.Transform.position = 
                         parent.TransformDirection(positionData.Position) +
-                        parent.position;
+                        parent.position + offset;
                 }
                 else
                 {
-                    positionData.Transform.localPosition = positionData.Position;
+                    positionData.Transform.localPosition = positionData.Position + offset;
                 }
 
                 if (positionData.UseRotation)
@@ -238,6 +259,13 @@ namespace MelonCameraMod_LegacyInput
                 );
 
                 camera.enabled = config.Enabled;
+
+                var positionMarkers = new Transform[0];
+                if (config.UseAvatarAsBasePosition)
+                {
+                    positionMarkers = FindPositionMarkers(debug, configIndex, parent, parent.parent);
+                }
+
                 if (config.PositionIgnoresScale)
                     childTransform.position =
                         parent.TransformDirection(config.LocalPosition) +
@@ -345,6 +373,7 @@ namespace MelonCameraMod_LegacyInput
                             Position = config.LocalPosition,
                             Rotation = localRotation,
                             Transform = childTransform,
+                            PositionMarkers = positionMarkers,
                         }
                     );
                 }
@@ -374,14 +403,7 @@ namespace MelonCameraMod_LegacyInput
                 }
 
                 if (!debug) return;
-                var sb = new StringBuilder(child.name, 100);
-                var currentParent = parent;
-                while (currentParent != null)
-                {
-                    sb.Insert(0, "/");
-                    sb.Insert(0, currentParent.gameObject.name);
-                    currentParent = currentParent.parent;
-                }
+                var sb = ObjectPath(child, parent);
 
                 sb.Insert(0, "Finished creating camera with path: ");
                 CameraMod.Msg(sb.ToString());
@@ -391,6 +413,69 @@ namespace MelonCameraMod_LegacyInput
             {
                 CreateCamera(i);
             }
+        }
+
+
+        private static Transform[] FindPositionMarkers(bool debug, int index, Transform baseObject, Transform parent)
+        {
+            var animator = baseObject.GetComponentInParent<Animator>();
+            if (animator == null)
+            {
+                animator = baseObject.GetComponentInChildren<Animator>();
+            }
+
+            if (animator == null)
+            {
+                CameraMod.Warning($"Failed to find animator for camera index {index}");
+                return new Transform[0];
+            }
+
+            if (debug)
+            {
+                var sb = ObjectPath(baseObject.gameObject, parent);
+                sb.Insert(0, "Using animator with path: ");
+                CameraMod.Msg(sb.ToString());
+            }
+
+            var avatar = animator.avatar;
+            if (avatar == null)
+            {
+                CameraMod.Warning($"Failed to find avatar for camera index {index} (found animator)");
+                return new Transform[0];
+            }
+
+            if (!avatar.isHuman)
+            {
+                CameraMod.Warning($"Avatar for camera index {index} is not human, and will be ignored");
+                return new Transform[0];
+            }
+
+            var possibleTransforms = new Transform[]
+            {
+                animator.GetBoneTransform(HumanBodyBones.Chest),
+                animator.GetBoneTransform(HumanBodyBones.Hips),
+                animator.GetBoneTransform(HumanBodyBones.Head),
+                animator.GetBoneTransform(HumanBodyBones.RightUpperLeg),
+                animator.GetBoneTransform(HumanBodyBones.LeftUpperLeg),
+                animator.GetBoneTransform(HumanBodyBones.LeftShoulder),
+                animator.GetBoneTransform(HumanBodyBones.RightShoulder),
+            };
+
+            return possibleTransforms.Where(t => t != null).ToArray();
+        }
+
+        private static StringBuilder ObjectPath(GameObject baseObject, Transform parent)
+        {
+            var sb = new StringBuilder(baseObject.name, 100);
+            var currentParent = parent;
+            while (currentParent != null)
+            {
+                sb.Insert(0, "/");
+                sb.Insert(0, currentParent.gameObject.name);
+                currentParent = currentParent.parent;
+            }
+
+            return sb;
         }
     }
 }
