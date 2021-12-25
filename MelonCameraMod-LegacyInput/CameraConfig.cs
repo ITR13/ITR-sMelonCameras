@@ -20,6 +20,10 @@ namespace MelonCameraMod
         public bool ForceUpdatePosition;
         public bool PositionIgnoresScale;
 
+        public bool SmoothFollow;
+        public float SmoothTime;
+        public float RotationSpeed;
+
         public SerializedRect Rect;
         public SerializedVector3 LocalPosition;
 

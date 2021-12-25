@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Il2CppSystem;
 using MelonCameraMod;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -38,6 +37,22 @@ namespace MelonCameraMod_LegacyInput
             public Transform[] PositionMarkers;
         }
 
+        private class SmoothData
+        {
+            public Camera Camera { set; private get; }
+            public bool Enabled => Camera != null && Camera.enabled && Target != null;
+            public bool WasDisabled;
+
+            public Transform Transform { get; set; }
+
+            public float SmoothTime;
+            public float RotationSpeed;
+
+            public Transform Target;
+            public Vector3 LastPosition, PosVelocity;
+            public Quaternion LastRotation;
+        }
+
         private class FovData
         {
             public Camera Camera;
@@ -49,6 +64,7 @@ namespace MelonCameraMod_LegacyInput
         private static readonly List<RenderTextureData> _renderTextures = new List<RenderTextureData>();
         private static readonly List<PositionData> _positions = new List<PositionData>();
         private static readonly List<FovData> _fovs = new List<FovData>();
+        private static readonly List<SmoothData> _smooths = new List<SmoothData>();
 
         public static void ForceReload() => _cameraParent = null;
 
@@ -132,6 +148,45 @@ namespace MelonCameraMod_LegacyInput
             }
         }
 
+        public static void UpdateSmooths()
+        {
+            var dt = Time.deltaTime;
+            foreach (var smooth in _smooths)
+            {
+                if (!smooth.Enabled)
+                {
+                    smooth.WasDisabled = true;
+                    return;
+                }
+
+                var targetPos = smooth.Target.position;
+                var targetRot = smooth.Target.rotation;
+
+                if (smooth.WasDisabled)
+                {
+                    smooth.WasDisabled = false;
+                    smooth.LastPosition = targetPos;
+                    smooth.PosVelocity = Vector3.zero;
+                    smooth.LastRotation = targetRot;
+                }
+
+                smooth.LastPosition = Vector3.SmoothDamp(
+                    smooth.LastPosition,
+                    targetPos,
+                    ref smooth.PosVelocity,
+                    smooth.SmoothTime
+                );
+                smooth.LastRotation = Quaternion.RotateTowards(
+                    smooth.LastRotation,
+                    targetRot,
+                    dt * smooth.RotationSpeed
+                );
+
+                smooth.Transform.position = smooth.LastPosition;
+                smooth.Transform.rotation = smooth.LastRotation;
+            }
+        }
+
         public static void UpdateFovs()
         {
             foreach (var fovData in _fovs)
@@ -171,15 +226,22 @@ namespace MelonCameraMod_LegacyInput
                     Object.Destroy(cameraData.Camera.gameObject);
                 }
 
-                _cameras.Clear();
                 foreach (var renderData in _renderTextures)
                 {
                     if (renderData.RenderTexture == null) continue;
                     Object.Destroy(renderData.RenderTexture);
                 }
 
+                foreach (var smooth in _smooths)
+                {
+                    if (smooth.Transform != null) Object.Destroy(smooth.Transform);
+                    if (smooth.Target != null) Object.Destroy(smooth.Target);
+                }
+
+                _cameras.Clear();
                 _renderTextures.Clear();
                 _positions.Clear();
+                _smooths.Clear();
                 _fovs.Clear();
             }
 
@@ -271,7 +333,31 @@ namespace MelonCameraMod_LegacyInput
                 }
 
 
-                var camera = child.AddComponent<Camera>();
+                Camera camera;
+                GameObject smoother;
+                if (config.SmoothFollow)
+                {
+                    smoother = new GameObject($"Smooth Camera #{configIndex}");
+                    Object.DontDestroyOnLoad(smoother);
+                    camera = smoother.AddComponent<Camera>();
+
+                    _smooths.Add(
+                        new SmoothData
+                        {
+                            Camera = camera,
+                            RotationSpeed = config.RotationSpeed,
+                            SmoothTime = config.SmoothTime,
+                            Target = child.transform,
+                            Transform = smoother.transform,
+                            WasDisabled = true,
+                        }
+                    );
+                }
+                else
+                {
+                    camera = child.AddComponent<Camera>();
+                    smoother = null;
+                }
                 _cameras.Add(
                     new CameraData
                     {

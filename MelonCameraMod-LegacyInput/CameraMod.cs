@@ -33,6 +33,7 @@ namespace MelonCameraMod
         public override void OnLateUpdate()
         {
             CameraHandler.UpdatePositions();
+            CameraHandler.UpdateSmooths();
             CameraHandler.UpdateFovs();
         }
 
