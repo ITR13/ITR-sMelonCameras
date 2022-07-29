@@ -519,6 +519,14 @@ namespace MelonCameraMod_LegacyInput
                 var sb = ObjectPath(child, parent);
 
                 sb.Insert(0, "Finished creating camera with path: ");
+
+                {
+                    sb.Append("\n\nOther Children:\n");
+                    for (var i = 0; i < parent.childCount; i++)
+                    {
+                        sb.AppendLine(parent.GetChild(i).gameObject.name);
+                    }
+                }
                 CameraMod.Msg(sb.ToString());
             }
 

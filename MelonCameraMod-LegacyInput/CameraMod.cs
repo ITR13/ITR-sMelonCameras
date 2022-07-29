@@ -1,7 +1,9 @@
 ﻿using System;
+using MelonCameraMod;
 using MelonCameraMod_LegacyInput;
 using MelonLoader;
 
+[assembly: MelonInfo(typeof(CameraMod), "ITR's Melon Cameras", "1.5", "ITR")]
 namespace MelonCameraMod
 {
     public class CameraMod : MelonMod

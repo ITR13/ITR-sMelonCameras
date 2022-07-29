@@ -1,0 +1,17 @@
+
+  {
+    "_id": 74,
+    "name": "ITR's Melon Cameras",
+    "modversion": "1.5",
+    "vrchatversion": "Build 1207",
+    "loaderversion": "0.5.4",
+    "modtype": "Mod",
+    "author": "ITR",
+    "description": "Allows you to spawn in multiple cameras to view through, similar to stream cameras. Check https://github.com/ITR13/ITR-sMelonCameras/blob/master/README.md for more info",
+    "searchtags": ["ITR", "Utility", "Camera", "Cameras", "MelonCameras", "View", "Selfie", "Orthographic", "Perspective", "FOV"],
+    "requirements": null,
+    "downloadlink": "https://github.com/ITR13/ITR-sMelonCameras/releases/download/v1.5/MelonCameraMod-LegacyInput.dll",
+    "sourcelink": "https://github.com/ITR13/ITR-sMelonCameras",
+    "changelog": "Tested on latest vrchat version",
+    "embedcolor": "007F00"
+  },

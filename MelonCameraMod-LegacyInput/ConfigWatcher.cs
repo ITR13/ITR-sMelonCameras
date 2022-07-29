@@ -28,7 +28,7 @@ namespace MelonCameraMod
         public static FullConfig Config;
 
         private static readonly FileSystemWatcher FileSystemWatcher;
-        private static bool _dirty = false;
+        private static int _dirty = 0;
 
         static ConfigWatcher()
         {
@@ -39,11 +39,11 @@ namespace MelonCameraMod
                 NotifyFilter = (NotifyFilters)((1 << 9) - 1),
                 EnableRaisingEvents = true
             };
-            FileSystemWatcher.Changed += (_, __) => _dirty = true;
-            FileSystemWatcher.Created += (_, __) => _dirty = true;
-            FileSystemWatcher.Renamed += (_, __) => _dirty = true;
-            FileSystemWatcher.Deleted += (_, __) => _dirty = true;
-            _dirty = true;
+            FileSystemWatcher.Changed += (_, __) => _dirty = 3;
+            FileSystemWatcher.Created += (_, __) => _dirty = 3;
+            FileSystemWatcher.Renamed += (_, __) => _dirty = 3;
+            FileSystemWatcher.Deleted += (_, __) => _dirty = 3;
+            _dirty = 3;
         }
 
 
@@ -103,13 +103,13 @@ namespace MelonCameraMod
         public static void Unload()
         {
             FileSystemWatcher.EnableRaisingEvents = false;
-            _dirty = false;
+            _dirty = 0;
         }
 
         public static bool UpdateIfDirty()
         {
-            if (!_dirty) return false;
-            _dirty = false;
+            if (_dirty <= 0) return false;
+            if (--_dirty > 0) return false;
 
             if (!File.Exists(FullPath))
             {
