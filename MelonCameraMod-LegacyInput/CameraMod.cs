@@ -3,7 +3,7 @@ using MelonCameraMod;
 using MelonCameraMod_LegacyInput;
 using MelonLoader;
 
-[assembly: MelonInfo(typeof(CameraMod), "ITR's Melon Cameras", "1.5", "ITR")]
+[assembly: MelonInfo(typeof(CameraMod), "ITR's Melon Cameras", "1.5.1", "ITR")]
 namespace MelonCameraMod
 {
     public class CameraMod : MelonMod
