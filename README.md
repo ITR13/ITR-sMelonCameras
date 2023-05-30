@@ -1,4 +1,7 @@
 Feel free to ask me any questions on discord: ITR#2941  
+***NOTE: If you want to use this in VRCHAT:***
+VrChat has banned mods now, so naturally this mod cannot be used anymore. I've left the original text below in case other vr games have similar issues.
+This mod still works with other unity games.
 
 ***NOTE: If you want to use this with VR in VRCHAT:***
 VRCHAT forcibly takes control of all cameras in vr for some reason, so you need to have ForceUpdatePosition set to true for cameras you want to use in vr. 
